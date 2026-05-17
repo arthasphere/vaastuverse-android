@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VaastuVerse — App Mockup v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sf:#E8720C;--sfl:#FFF0E6;--sfm:#FFB87A;
+  --jd:#1A7A5E;--jdl:#E3F4EE;--jdm:#6CC4B4;
+  --gd:#C9A030;--gdl:#FFF3DC;--gdm:#D4A830;
+  --cr:#FDFAF5;--wm:#F7F0E4;--wmd:#EFE6D5;
+  --ink:#1A150A;--ink2:#4A3F2F;--ink3:#7A6F5F;
+  --bd:#D9CEBC;
+  --red:#8B2020;--redl:#FAE8E8;
+  --doc:#0F1117;--doc2:#181C26;--docb:#272F42;--doct:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--doc);color:#E2E8F0;font-family:'Instrument Sans',sans-serif;font-size:13px;}
+
+.topbar{background:var(--doc2);border-bottom:1px solid var(--docb);padding:.7rem 2rem;position:sticky;top:0;z-index:100;}
+.tb-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:.45rem;}
+.tb-title{font-family:'Fraunces',serif;font-size:16px;color:#FB923C;}
+.utabs{display:flex;gap:4px;}
+.ut{background:transparent;border:1px solid var(--docb);border-radius:6px;padding:5px 13px;font-family:'Instrument Sans',sans-serif;font-size:11px;color:var(--doct);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500;}
+.ut.oc{background:rgba(232,114,12,.1);border-color:rgba(232,114,12,.3);color:#FB923C;}
+.ut.os{background:rgba(26,122,94,.1);border-color:rgba(26,122,94,.3);color:#34D399;}
+.ut.og{background:rgba(201,160,48,.1);border-color:rgba(201,160,48,.3);color:#FCD34D;}
+.snav{display:flex;gap:4px;overflow-x:auto;padding-bottom:1px;}
+.sn{background:transparent;border:1px solid var(--docb);border-radius:4px;padding:3px 9px;font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--doct);cursor:pointer;white-space:nowrap;}
+.sn.ac{background:rgba(232,114,12,.08);border-color:rgba(232,114,12,.25);color:#FB923C;}
+.sn.as{background:rgba(26,122,94,.08);border-color:rgba(26,122,94,.25);color:#34D399;}
+.sn.ag{background:rgba(201,160,48,.08);border-color:rgba(201,160,48,.25);color:#FCD34D;}
+
+.stage{padding:1.75rem 2rem 5rem;}
+.journey{display:none;}
+.journey.active{display:block;}
+.sw{display:none;}
+.sw.on{display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-start;}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:.55rem;}
+.plbl{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--doct);text-align:center;max-width:190px;}
+.nc{flex:1;min-width:230px;max-width:360px;}
+.nc h3{font-size:12px;font-weight:600;margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid var(--docb);}
+.ni{margin-bottom:.55rem;}
+.ni h4{font-size:10px;font-weight:700;margin-bottom:1px;}
+.ni p,.ni li{font-size:10px;color:var(--doct);line-height:1.55;}
+.ni ul{padding-left:.8rem;}
+
+/* PHONE */
+.phone{width:270px;background:#0A0A0C;border-radius:38px;padding:10px;box-shadow:0 0 0 1px #2A2A3A,0 20px 60px rgba(0,0,0,.6),0 0 0 8px #1A1A24,0 0 0 9px #0A0A14;flex-shrink:0;}
+.notch{width:74px;height:21px;background:#0A0A0C;border-radius:0 0 13px 13px;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;}
+.nc2{width:8px;height:8px;border-radius:50%;background:#1A1A24;}
+.scr{border-radius:27px;overflow:hidden;height:535px;display:flex;flex-direction:column;}
+.sb{padding:5px 15px 3px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sbt{font-size:11px;font-weight:600;}
+.tbar{background:white;border-top:1px solid var(--bd);padding:5px 0 8px;display:flex;justify-content:space-around;flex-shrink:0;}
+.ti{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;}
+.tii{font-size:17px;line-height:1;}
+.til{font-size:7px;color:var(--ink3);}
+.body{flex:1;overflow:hidden;}
+.s1{font-family:'Fraunces',serif;font-size:18px;font-weight:600;line-height:1.2;}
+.s2{font-family:'Fraunces',serif;font-size:14px;font-weight:600;}
+.s3{font-size:12px;font-weight:700;}
+.stg{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;}
+.btn-sf{background:var(--sf);color:white;border:none;border-radius:9px;padding:10px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;cursor:pointer;}
+.btn-jd{background:var(--jd);color:white;border:none;border-radius:9px;padding:10px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;cursor:pointer;}
+.btn-gd{background:var(--gdm);color:white;border:none;border-radius:9px;padding:10px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;cursor:pointer;}
+.inp{border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--ink);background:var(--wm);width:100%;}
+.lbl{font-size:8px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:2px;display:block;}
+.cd{background:white;border:1px solid var(--bd);border-radius:11px;padding:9px;}
+.cdp{background:var(--jdl);border:1px solid rgba(26,122,94,.2);border-radius:9px;padding:8px;}
+.cdg{background:var(--gdl);border:1px solid rgba(201,160,48,.2);border-radius:9px;padding:8px;}
+.cdw{background:var(--wm);border:1px solid var(--bd);border-radius:9px;padding:8px;}
+.pad{padding:10px 13px;}
+.div{height:1px;background:var(--bd);margin:7px 0;}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);}
+.row:last-child{border:none;}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;}
+.ce{background:var(--jdl);color:var(--jd);}
+.cm{background:var(--gdl);color:#8B5E0A;}
+.cp{background:var(--redl);color:var(--red);}
+.prog{height:4px;background:var(--wmd);border-radius:2px;overflow:hidden;margin:3px 0;}
+.pf{height:100%;border-radius:2px;}
+
+/* Differentiator badge — the key visual pattern */
+.diff-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:8px;font-weight:700;letter-spacing:.04em;margin-bottom:4px;}
+.db-gold{background:rgba(201,160,48,.15);color:var(--gdm);border:1px solid rgba(201,160,48,.3);}
+.db-jade{background:rgba(26,122,94,.12);color:var(--jd);border:1px solid rgba(26,122,94,.25);}
+.db-sf{background:rgba(232,114,12,.1);color:var(--sf);border:1px solid rgba(232,114,12,.25);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="tb-r1">
+    <div class="tb-title">VaastuVerse · App Mockup v3 <span style="font-size:11px;color:var(--doct);">· Differentiators + All Use Cases</span></div>
+    <div class="utabs">
+      <button class="ut oc" onclick="sw('client',this)">🏠 Customer</button>
+      <button class="ut" onclick="sw('shruti',this)">🌿 Shruti</button>
+      <button class="ut" onclick="sw('guruji',this)">👑 New Guruji</button>
+    </div>
+  </div>
+  <div class="snav" id="snav"></div>
+</div>
+
+<div class="stage">
+
+<!-- ═══════════════════════════════════════════
+     CUSTOMER JOURNEY
+═══════════════════════════════════════════ -->
+<div class="journey active" id="j-client">
+
+<!-- C1: HOME — differentiators woven in -->
+<div class="sw on" id="sw-c1">
+  <div class="pcol">
+    <div class="plbl">Home — use cases + key differentiators</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:linear-gradient(155deg,#FFF8F0 0%,#FFF0E0 50%,var(--cr) 100%);">
+        <div class="sb"><span class="sbt" style="color:var(--ink);">9:41</span><span style="font-size:9px;color:var(--ink3);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;padding:0 13px 10px;">
+          <!-- Greeting + shruti brand -->
+          <div style="padding:10px 0 8px;display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+              <div style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sf);margin-bottom:2px;">NAMASTE, PRIYA JI 🙏</div>
+              <div class="s1" style="font-size:17px;">Your Vaastu,<br><span style="color:var(--sf);font-style:italic;">your Shruti.</span></div>
+            </div>
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--jdl);border:2px solid var(--jd);display:flex;align-items:center;justify-content:center;font-size:15px;">🧘</div>
+          </div>
+
+          <!-- THE KEY DIFFERENTIATOR STRIP — subtle, always visible -->
+          <div style="background:linear-gradient(90deg,var(--gdl),#FFFAEE);border:1px solid rgba(201,160,48,.25);border-radius:9px;padding:7px 10px;margin-bottom:10px;display:flex;align-items:center;gap:7px;">
+            <span style="font-size:14px;">👑</span>
+            <div style="flex:1;">
+              <div style="font-size:9px;font-weight:700;color:var(--gd);">Shruti personally validates every report</div>
+              <div style="font-size:8px;color:var(--ink3);">Not AI alone — a named expert who signs off</div>
+            </div>
+            <div style="font-size:8px;color:var(--gd);font-weight:600;white-space:nowrap;">Only here ✦</div>
+          </div>
+
+          <!-- USE CASE SELECTOR -->
+          <div style="font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;">WHAT DO YOU NEED VAASTU FOR?</div>
+
+          <!-- Residential -->
+          <div class="cd" style="margin-bottom:5px;display:flex;gap:9px;align-items:center;">
+            <span style="font-size:20px;">🏠</span>
+            <div style="flex:1;">
+              <div class="s3" style="font-size:11px;">New Flat / Home</div>
+              <div style="font-size:9px;color:var(--ink3);">Zone analysis · remedies · muhurat · renders</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:8px;color:var(--ink3);text-decoration:line-through;">₹5,500</div>
+              <div style="font-size:11px;font-weight:700;color:var(--jd);">₹399</div>
+            </div>
+          </div>
+
+          <!-- Business / Office -->
+          <div class="cd" style="margin-bottom:5px;display:flex;gap:9px;align-items:center;">
+            <span style="font-size:20px;">🏢</span>
+            <div style="flex:1;">
+              <div class="s3" style="font-size:11px;">Office / Workspace</div>
+              <div style="font-size:9px;color:var(--ink3);">Desk flow · cash counter · MD cabin · entrance</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:8px;color:var(--ink3);text-decoration:line-through;">₹8,000</div>
+              <div style="font-size:11px;font-weight:700;color:var(--jd);">₹599</div>
+            </div>
+          </div>
+
+          <!-- Shop / Showroom -->
+          <div class="cd" style="margin-bottom:5px;display:flex;gap:9px;align-items:center;">
+            <span style="font-size:20px;">🏪</span>
+            <div style="flex:1;">
+              <div class="s3" style="font-size:11px;">Shop / Showroom</div>
+              <div style="font-size:9px;color:var(--ink3);">Entrance · cash box · display placement · flow</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:8px;color:var(--ink3);text-decoration:line-through;">₹10,000</div>
+              <div style="font-size:11px;font-weight:700;color:var(--jd);">₹599</div>
+            </div>
+          </div>
+
+          <!-- Factory / Warehouse -->
+          <div class="cd" style="margin-bottom:8px;display:flex;gap:9px;align-items:center;">
+            <span style="font-size:20px;">🏭</span>
+            <div style="flex:1;">
+              <div class="s3" style="font-size:11px;">Factory / Warehouse</div>
+              <div style="font-size:9px;color:var(--ink3);">Machinery · raw material · dispatch zone · flow</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:8px;color:var(--ink3);text-decoration:line-through;">₹25,000</div>
+              <div style="font-size:11px;font-weight:700;color:var(--jd);">₹999</div>
+            </div>
+          </div>
+
+          <!-- Differentiator 2 — subtle -->
+          <div style="background:var(--jdl);border:1px solid rgba(26,122,94,.2);border-radius:8px;padding:6px 9px;display:flex;gap:6px;align-items:center;">
+            <span style="font-size:11px;">📱</span>
+            <div style="font-size:9px;color:var(--jd);">Your report stays on your phone forever — revisit any time, share with family, book a follow-up in seconds. No other Vaastu service gives you this.</div>
+          </div>
+        </div>
+        <div class="tbar">
+          <div class="ti" style="color:var(--sf);"><div class="tii">🏠</div><div class="til" style="color:var(--sf);font-weight:600;">Home</div></div>
+          <div class="ti"><div class="tii">📋</div><div class="til">Reports</div></div>
+          <div class="ti"><div class="tii">📅</div><div class="til">Muhurats</div></div>
+          <div class="ti"><div class="tii">📞</div><div class="til">Ask Shruti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FB923C;">C1 — Home: Use Cases + Differentiators</h3>
+    <div class="ni"><h4 style="color:#FB923C;">What was missing — explicit differentiator strip</h4><p>The gold strip "Shruti personally validates every report — Not AI alone, a named expert who signs off" + "Only here ✦" — this is the single most important differentiator vs every competitor. AppliedVastu is a company. Vaastu Wisdom is an app. VaastuVerse is Shruti. That human accountability is the moat — it must be visible on every home screen, not buried in an about page.</p></div>
+    <div class="ni"><h4 style="color:#FB923C;">What was also missing — business use cases</h4><p>Four use cases shown as tappable cards: New Flat (₹399), Office/Workspace (₹599), Shop/Showroom (₹599), Factory/Warehouse (₹999). Market rates shown struck through: ₹5,500 / ₹8,000 / ₹10,000 / ₹25,000. This anchors value immediately. Business owners are higher-value customers with less price sensitivity — they pay ₹25,000 for an industrial Vaastu visit currently.</p></div>
+    <div class="ni"><h4 style="color:#FB923C;">Differentiator 2 — digital persistence</h4><p>The jade strip at bottom: "Your report stays on your phone forever — revisit any time, share with family, book a follow-up in seconds. No other Vaastu service gives you this." This is the second moat no traditional consultant or generic app offers — your Vaastu analysis is a living document, not a one-time PDF you lose.</p></div>
+  </div>
+</div>
+
+<!-- C2: USE CASE — BUSINESS (office/shop/factory specific report) -->
+<div class="sw" id="sw-c2">
+  <div class="pcol">
+    <div class="plbl">Business Vaastu — use case detail</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--cr);">
+        <div class="sb"><span class="sbt" style="color:var(--ink);">9:43</span><span style="font-size:9px;color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;display:flex;align-items:center;gap:8px;flex-shrink:0;">
+          <span style="font-size:16px;">🏢</span>
+          <div><div style="font-size:12px;font-weight:600;color:white;">Business Vaastu Report</div><div style="font-size:9px;color:rgba(255,255,255,.55);">Office · Shop · Showroom · Factory</div></div>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+          <!-- What business Vaastu covers -->
+          <div class="diff-badge db-gold" style="margin-bottom:6px;">Only platform with business Vaastu + named Guruji expert</div>
+          <div style="font-size:10px;color:var(--ink2);margin-bottom:10px;">Business Vaastu is not the same as home Vaastu. Different zones matter for different business outcomes — cash flow, team energy, customer attraction, owner's cabin placement. Shruti's expertise covers all of these.</div>
+
+          <!-- Use case tabs -->
+          <div style="display:flex;gap:4px;margin-bottom:9px;overflow-x:auto;">
+            <button style="background:var(--jdl);border:2px solid var(--jd);border-radius:6px;padding:5px 10px;font-size:9px;font-weight:700;color:var(--jd);white-space:nowrap;">🏢 Office</button>
+            <button style="background:var(--wmd);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;font-size:9px;color:var(--ink3);white-space:nowrap;">🏪 Shop</button>
+            <button style="background:var(--wmd);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;font-size:9px;color:var(--ink3);white-space:nowrap;">🏭 Factory</button>
+            <button style="background:var(--wmd);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;font-size:9px;color:var(--ink3);white-space:nowrap;">🏨 Hotel</button>
+          </div>
+
+          <!-- Office Vaastu specifics -->
+          <div style="font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;">WHAT WE ANALYSE FOR YOUR OFFICE</div>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:9px;">
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;">
+              <span style="font-size:14px;">🪑</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">MD / Owner Cabin</div><div style="font-size:8px;color:var(--ink3);">Zone · facing direction · power position</div></div>
+            </div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;">
+              <span style="font-size:14px;">💰</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Cash / Finance Area</div><div style="font-size:8px;color:var(--ink3);">Accounts desk · safe placement · N or NE zone</div></div>
+            </div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;">
+              <span style="font-size:14px;">🚪</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Main Entrance Energy</div><div style="font-size:8px;color:var(--ink3);">Client attraction · reception placement · facing</div></div>
+            </div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;">
+              <span style="font-size:14px;">👥</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Team / Staff Zone</div><div style="font-size:8px;color:var(--ink3);">Workstation zones · productivity · collaboration</div></div>
+            </div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;">
+              <span style="font-size:14px;">🕉</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Office Mandir / Pooja</div><div style="font-size:8px;color:var(--ink3);">NE placement · morning ritual space</div></div>
+            </div>
+          </div>
+
+          <!-- Pricing with comparison -->
+          <div class="cdp">
+            <div style="font-size:8px;font-weight:700;color:var(--jd);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;">OFFICE VAASTU REPORT · SHRUTI-VALIDATED</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <div><div style="font-family:'Fraunces',serif;font-size:22px;color:var(--jd);">₹599</div><div style="font-size:8px;color:var(--ink3);">Consultant site visit: ₹8,000–15,000</div></div>
+              <div style="text-align:right;"><div style="font-size:8px;color:var(--jd);font-weight:600;">Includes:</div><div style="font-size:8px;color:var(--ink3);">PDF report<br>Remedy plan<br>Ask Shruti</div></div>
+            </div>
+            <button class="btn-jd" style="font-size:11px;padding:8px 0;">Get My Office Vaastu Report →</button>
+          </div>
+        </div>
+        <div class="tbar">
+          <div class="ti"><div class="tii">🏠</div><div class="til">Home</div></div>
+          <div class="ti" style="color:var(--sf);"><div class="tii">📋</div><div class="til" style="color:var(--sf);font-weight:600;">Reports</div></div>
+          <div class="ti"><div class="tii">📅</div><div class="til">Muhurats</div></div>
+          <div class="ti"><div class="tii">📞</div><div class="til">Ask Shruti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FB923C;">C2 — Business Vaastu Use Case</h3>
+    <div class="ni"><h4 style="color:#FB923C;">Why business customers are strategically important</h4><ul><li>Higher willingness to pay — ₹999 for factory Vaastu vs ₹399 for home</li><li>Repeat customers — a business owner may analyse 3 different sites before choosing one</li><li>Network referral quality — one business owner refers 5–10 colleagues</li><li>Competitor gap — <strong>no app currently offers business Vaastu with an accountable named expert</strong>. AppliedVastu and VaastuDevayah do it but at ₹8,000–25,000 with no digital accessibility</li></ul></div>
+    <div class="ni"><h4 style="color:#FB923C;">Tab selector for business types</h4><p>Office, Shop, Factory, Hotel — each tab changes the five analysis points shown below it. The content is meaningfully different: factory analysis covers machinery placement, raw material storage, dispatch zones (N-W), finished goods flow. Shop analysis covers entrance energy, cash counter, display placement. These are genuinely different Vaastu applications, not cosmetic relabelling.</p></div>
+    <div class="ni"><h4 style="color:#FB923C;">Struck-through market price — the most powerful pricing signal</h4><p>"Consultant site visit: ₹8,000–15,000" shown below the ₹599 price. This is not aggressive — it's honest. Business owners know what a consultant charges. Seeing the comparison immediately communicates value without any sales copy needed.</p></div>
+  </div>
+</div>
+
+<!-- C3: DIFFERENTIATOR PAGE — what you get that's unique -->
+<div class="sw" id="sw-c3">
+  <div class="pcol">
+    <div class="plbl">Why VaastuVerse — differentiators clearly stated</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--cr);">
+        <div class="sb"><span class="sbt" style="color:var(--ink);">9:44</span><span style="font-size:9px;color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--jd);padding:9px 13px;color:white;flex-shrink:0;">
+          <div style="font-size:12px;font-weight:600;">Why VaastuVerse is different</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.65);">Not a generic app. Not an expensive consultant. Something new.</div>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+
+          <!-- Differentiator 1 -->
+          <div style="background:var(--gdl);border:1.5px solid rgba(201,160,48,.3);border-radius:11px;padding:10px;margin-bottom:7px;">
+            <div class="diff-badge db-gold" style="margin-bottom:4px;">👑 Only on VaastuVerse</div>
+            <div class="s3" style="font-size:12px;color:var(--ink);margin-bottom:3px;">A named Guruji who signs every report</div>
+            <div style="font-size:10px;color:var(--ink2);line-height:1.55;">Every report is validated by Shruti Gupta — a named, accountable Vaastu expert. When she signs a report, she stands behind it. Generic apps give you rules. We give you <strong>a person responsible for your analysis.</strong> No other digital Vaastu platform does this.</div>
+          </div>
+
+          <!-- Differentiator 2 -->
+          <div class="cdp" style="margin-bottom:7px;">
+            <div class="diff-badge db-jade" style="margin-bottom:4px;">📱 Only on VaastuVerse</div>
+            <div class="s3" style="font-size:12px;color:var(--ink);margin-bottom:3px;">Your report lives on your phone, forever</div>
+            <div style="font-size:10px;color:var(--ink2);line-height:1.55;">Traditional consultants give you a visit and a WhatsApp message. We give you a living report — zone scores, remedies, muhurat dates, all revisable and shareable from your phone at any time. Book a follow-up in one tap. Show your spouse at the site visit. Check the remedy plan while at the hardware shop.</div>
+          </div>
+
+          <!-- Differentiator 3 -->
+          <div class="cdw" style="margin-bottom:7px;">
+            <div class="diff-badge db-sf" style="margin-bottom:4px;">🧠 Only on VaastuVerse</div>
+            <div class="s3" style="font-size:12px;color:var(--ink);margin-bottom:3px;">Validated against 847+ real case studies</div>
+            <div style="font-size:10px;color:var(--ink2);line-height:1.55;">Our AI is trained on Shruti's real consultations — actual Bengaluru flats, actual outcomes. Not generic text-book Vaastu. When your report says "NE bathroom is a concern," it's because Shruti has seen this in 43 real flats in Sarjapur Road and knows exactly which remedies work.</div>
+          </div>
+
+          <!-- Differentiator 4 — the business angle -->
+          <div class="cdw">
+            <div class="diff-badge db-sf" style="margin-bottom:4px;">🏢 Only on VaastuVerse</div>
+            <div class="s3" style="font-size:12px;color:var(--ink);margin-bottom:3px;">Home AND business Vaastu, one platform</div>
+            <div style="font-size:10px;color:var(--ink2);line-height:1.55;">Analyse your home, your office, and your factory on the same platform with the same trusted Guruji. Compare reports. Book a single consultation that covers all three. No other platform combines residential and commercial Vaastu with expert validation at accessible pricing.</div>
+          </div>
+        </div>
+        <div class="tbar">
+          <div class="ti"><div class="tii">🏠</div><div class="til">Home</div></div>
+          <div class="ti"><div class="tii">📋</div><div class="til">Reports</div></div>
+          <div class="ti"><div class="tii">📅</div><div class="til">Muhurats</div></div>
+          <div class="ti"><div class="tii">📞</div><div class="til">Ask Shruti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FB923C;">C3 — Differentiators Explicitly Stated</h3>
+    <div class="ni"><h4 style="color:#FB923C;">The "Only on VaastuVerse" label — how to use it</h4><p>The diff-badge with "Only on VaastuVerse" appears on every genuine differentiator — not every feature. Only four things earn this label: named Guruji accountability, digital report persistence, case-study-validated AI, and home+business on one platform. Everything else is table stakes. Using the label sparingly makes it meaningful. If it appears on every card it means nothing.</p></div>
+    <div class="ni"><h4 style="color:#FB923C;">What this page answers that wasn't answered</h4><p>The original mockup never directly answered "why should I use this vs calling a pandit or using a free app?" This page exists specifically to answer that question before any sceptical user asks it. Accessible from the home screen as "Why VaastuVerse" — not hidden in an about page.</p></div>
+    <div class="ni"><h4 style="color:#FB923C);">Differentiator 4 — the cross-sell hook</h4><p>"Home AND business Vaastu, one platform" — once a residential customer's flat is sorted, there's a natural next question: "What about my office?" This differentiator primes that cross-sell. A single satisfied residential customer who also owns a business is worth 3× in revenue.</p></div>
+  </div>
+</div>
+
+<!-- C4: FACTORY VAASTU REPORT SCREEN -->
+<div class="sw" id="sw-c4">
+  <div class="pcol">
+    <div class="plbl">Factory / Industrial Vaastu report</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--cr);">
+        <div class="sb"><span class="sbt" style="color:var(--ink);">9:45</span><span style="font-size:9px;color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-family:'Fraunces',serif;font-size:13px;color:var(--gdm);">Factory Vaastu Report</span>
+          <div style="display:flex;gap:4px;"><div style="background:rgba(255,255,255,.08);border-radius:5px;padding:3px 7px;font-size:8px;color:white;">⬇ Save</div></div>
+        </div>
+        <div class="body" style="overflow-y:auto;">
+          <!-- Cover -->
+          <div style="background:var(--ink);padding:12px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);">
+            <div style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--gdm);margin-bottom:4px;">INDUSTRIAL VAASTU ANALYSIS · SHRUTI GUPTA</div>
+            <div style="font-family:'Fraunces',serif;font-size:14px;color:white;margin-bottom:1px;">Kaveri Textiles Pvt Ltd</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:9px;">KIADB Industrial Area, Dobbaspet, Bengaluru</div>
+            <div style="background:rgba(201,160,48,.12);border:1px solid rgba(201,160,48,.2);border-radius:8px;padding:9px;display:flex;align-items:center;justify-content:center;gap:11px;">
+              <svg width="56" height="56" viewBox="0 0 56 56">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="5"/>
+                <circle cx="28" cy="28" r="24" fill="none" stroke="#C9A030" stroke-width="5" stroke-dasharray="150.8" stroke-dashoffset="45.2" stroke-linecap="round" transform="rotate(-90 28 28)"/>
+                <circle cx="28" cy="28" r="17" fill="var(--ink)"/>
+                <text x="28" y="26" text-anchor="middle" fill="#C9A030" font-family="Fraunces,serif" font-size="12" font-weight="600">70</text>
+                <text x="28" y="35" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="Instrument Sans,sans-serif" font-size="7">/100</text>
+              </svg>
+              <div style="text-align:left;">
+                <div style="font-family:'Fraunces',serif;font-size:18px;color:var(--gdm);">70/100</div>
+                <div style="font-size:9px;color:rgba(255,255,255,.5);">Good · Key remedy needed</div>
+                <div style="font-size:8px;color:var(--gdm);margin-top:2px;">✓ Validated by Shruti Gupta</div>
+              </div>
+            </div>
+          </div>
+          <!-- Industrial zone specifics -->
+          <div class="pad">
+            <div class="s3" style="font-size:10px;margin-bottom:5px;">Industrial Zone Analysis</div>
+            <div class="cdp" style="margin-bottom:5px;display:flex;gap:7px;">
+              <span style="font-size:14px;">✦</span><div><div style="font-size:10px;font-weight:700;color:var(--jd);">Production Zone — SE (88/100)</div><div style="font-size:8px;color:#1A5045;">Fire element zone. Machinery correctly placed. Production energy strong.</div></div>
+            </div>
+            <div class="cdp" style="margin-bottom:5px;display:flex;gap:7px;">
+              <span style="font-size:14px;">✦</span><div><div style="font-size:10px;font-weight:700;color:var(--jd);">Raw Material Storage — SW (84/100)</div><div style="font-size:8px;color:#1A5045;">Earth element stability. Correct placement prevents supply disruptions.</div></div>
+            </div>
+            <div style="background:var(--redl);border:1px solid rgba(139,32,32,.2);border-radius:8px;padding:7px;margin-bottom:5px;display:flex;gap:7px;">
+              <span style="font-size:14px;">⚠</span><div><div style="font-size:10px;font-weight:700;color:var(--red);">Dispatch / Finished Goods — NE (42/100)</div><div style="font-size:8px;color:#5A1A1A;">Finished goods should be in NW (Vayu zone) for movement. Current NE placement slows dispatch energy.</div></div>
+            </div>
+            <div class="cdp" style="margin-bottom:7px;display:flex;gap:7px;">
+              <span style="font-size:14px;">✓</span><div><div style="font-size:10px;font-weight:700;color:var(--jd);">MD Cabin — SW corner (91/100)</div><div style="font-size:8px;color:#1A5045;">Earth zone. Owner authority and stability. Excellent placement.</div></div>
+            </div>
+            <!-- Shruti's verdict for business -->
+            <div style="background:var(--ink);border-radius:9px;padding:9px;text-align:center;margin-bottom:6px;">
+              <div style="font-family:'Fraunces',serif;font-size:11px;font-style:italic;color:rgba(255,255,255,.85);margin-bottom:3px;">"The dispatch zone remedy is straightforward — relocate the finished goods staging to the NW bay. I've seen this single change improve dispatch cycle times significantly in similar Bengaluru factories."</div>
+              <div style="font-size:8px;color:var(--jdm);">— Shruti Gupta</div>
+            </div>
+            <button class="btn-jd" style="font-size:11px;">Book Factory Consultation · ₹1,999 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FB923C;">C4 — Factory Vaastu Report</h3>
+    <div class="ni"><h4 style="color:#FB923C;">Industrial zones are genuinely different</h4><p>The zone analysis for a factory is completely different from a home report: Production zone (SE — fire element for machinery), Raw Material storage (SW — earth element stability), Finished Goods dispatch (NW — Vayu zone for movement). These are real, distinct Vaastu principles for industrial layouts. The report must reflect this specificity — not just relabel "bedroom" as "production area".</p></div>
+    <div class="ni"><h4 style="color:#FB923C);">Shruti's verdict for a business owner</h4><p>Her quote is business-outcome language: "improve dispatch cycle times." Not "positive energy" or "prosperity" — specific, measurable, operational. Business owners respond to operational outcomes, not spiritual language. Shruti's note for a factory owner should sound like a management consultant, not a pandit.</p></div>
+    <div class="ni"><h4 style="color:#FB923C;">Upsell to consultation — different price point</h4><p>Factory consultation is ₹1,999 (vs ₹699 for home quick call). Business owners accept higher prices for their business than their home. The upsell CTA for industrial reports should always be for a full consultation — factories are too complex for a 20-min quick call.</p></div>
+  </div>
+</div>
+
+</div><!-- end customer journey -->
+
+<!-- ═══════════════════════════════════════════
+     SHRUTI JOURNEY
+═══════════════════════════════════════════ -->
+<div class="journey" id="j-shruti">
+
+<!-- S1: HOME — with "your practice stays yours" assurance -->
+<div class="sw on" id="sw-s1">
+  <div class="pcol">
+    <div class="plbl">Shruti home — practice stays hers</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sbt" style="color:rgba(255,255,255,.8);">9:41</span><span style="font-size:9px;color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;padding:12px 13px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:11px;">
+            <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--jd),#1AA090);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧘</div>
+            <div><div style="font-family:'Fraunces',serif;font-size:15px;color:white;">Shruti Gupta</div><span style="background:rgba(212,160,48,.15);border:1px solid rgba(212,160,48,.3);font-size:8px;font-weight:700;color:var(--gdm);padding:1px 7px;border-radius:4px;">👑 PARAM GURUJI · T1</span></div>
+          </div>
+
+          <!-- THE KEY ASSURANCE — practice stays hers -->
+          <div style="background:rgba(26,122,94,.1);border:1px solid rgba(26,122,94,.25);border-radius:10px;padding:9px;margin-bottom:10px;">
+            <div style="font-size:8px;font-weight:700;color:var(--jdm);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">YOUR PRACTICE · YOUR CLIENTS · YOUR RULES</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Your client relationships are yours — always. You control who gets access, what each report says, and when it's sent. The platform amplifies your practice; it cannot operate without your approval on every report.</div>
+            <div style="display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;">
+              <span style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);color:var(--jdm);font-size:8px;padding:2px 7px;border-radius:4px;">✓ You approve every report</span>
+              <span style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);color:var(--jdm);font-size:8px;padding:2px 7px;border-radius:4px;">✓ You own your client list</span>
+              <span style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);color:var(--jdm);font-size:8px;padding:2px 7px;border-radius:4px;">✓ Pause anytime</span>
+            </div>
+          </div>
+
+          <!-- Practice stats -->
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px;margin-bottom:9px;">
+            <div style="font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;">YOUR PRACTICE · THIS MONTH</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:18px;color:white;">23</div><div style="font-size:7px;color:rgba(255,255,255,.4);">Clients on platform</div></div>
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:18px;color:var(--jdm);">₹18.2K</div><div style="font-size:7px;color:rgba(255,255,255,.4);">Added passively</div></div>
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:18px;color:var(--gdm);">4.8★</div><div style="font-size:7px;color:rgba(255,255,255,.4);">Client rating</div></div>
+            </div>
+          </div>
+
+          <!-- Business clients now visible -->
+          <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;">YOUR CLIENTS TODAY</div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;overflow:hidden;margin-bottom:8px;">
+            <div style="padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:10px;font-weight:600;color:white;">Priya Sharma · Flat 4B</div><div style="font-size:8px;color:rgba(255,255,255,.35);">Residential · Report sent</div></div><span style="background:rgba(16,185,129,.15);color:var(--jdm);font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;">Active</span></div>
+            <div style="padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:10px;font-weight:600;color:white;">Kaveri Textiles · Factory</div><div style="font-size:8px;color:rgba(255,255,255,.35);">Industrial · Pending your review</div></div><span style="background:rgba(245,158,11,.15);color:var(--gdm);font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;">Review</span></div>
+            <div style="padding:7px 10px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:10px;font-weight:600;color:white;">Ravi Kumar · Office</div><div style="font-size:8px;color:rgba(255,255,255,.35);">Commercial · Report generated</div></div><span style="background:rgba(245,158,11,.15);color:var(--gdm);font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;">Review</span></div>
+          </div>
+
+          <!-- Invite -->
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:7px 9px;font-size:10px;color:white;outline:none;" placeholder="+91 number · invite client" type="tel">
+            <button style="background:var(--jd);color:white;border:none;border-radius:7px;padding:7px 11px;font-size:9px;font-weight:700;white-space:nowrap;">Invite 📲</button>
+          </div>
+        </div>
+        <div class="tbar" style="background:#1A1A24;border-top-color:#2A2A3A;">
+          <div class="ti on"><div class="tii">📊</div><div class="til" style="color:var(--jdm);">Home</div></div>
+          <div class="ti"><div class="tii">👥</div><div class="til" style="color:rgba(255,255,255,.4);">Clients</div></div>
+          <div class="ti"><div class="tii">💬</div><div class="til" style="color:rgba(255,255,255,.4);">Teach</div></div>
+          <div class="ti"><div class="tii">💰</div><div class="til" style="color:rgba(255,255,255,.4);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#34D399;">S1 — Shruti: Practice Stays Hers</h3>
+    <div class="ni"><h4 style="color:#34D399;">The assurance card — addressing her real fear</h4><p>The jade box "YOUR PRACTICE · YOUR CLIENTS · YOUR RULES" directly addresses the unspoken fear: "does joining this platform mean I lose control of my clients?" Three explicit commitments shown as chips: ✓ You approve every report · ✓ You own your client list · ✓ Pause anytime. These must appear before any earnings or stats — they're the prerequisite to Shruti's trust.</p></div>
+    <div class="ni"><h4 style="color:#34D399;">Business clients visible in her client list</h4><p>Shruti now sees residential AND commercial clients in her list — "Kaveri Textiles · Factory" and "Ravi Kumar · Office" alongside "Priya Sharma · Flat." This signals that the platform handles both, and that Shruti's commercial expertise (which she may not have been charging enough for) now has a proper channel.</p></div>
+    <div class="ni"><h4 style="color:#34D399);">What changes from the previous version</h4><p>The previous home screen led with earnings and practice stats. This version leads with the "your practice stays yours" assurance — then shows stats. The emotional sequencing matters: trust first, money second. Shruti is a professional, not a contractor.</p></div>
+  </div>
+</div>
+
+<!-- S2: WHAT SHRUTI GAINS — benefits she won't get elsewhere -->
+<div class="sw" id="sw-s2">
+  <div class="pcol">
+    <div class="plbl">Shruti — unique benefits vs traditional practice</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sbt" style="color:rgba(255,255,255,.8);">9:43</span><span style="font-size:9px;color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;">
+          <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--jdm);">What you gain</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.4);">Benefits you won't get from a traditional practice alone</div>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+
+          <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-jade" style="margin-bottom:3px;">💰 Income that doesn't need your time</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Your direct consultations pay ₹5,000–10,000 each. You can do 8–10 per month before you're fully booked. The platform generates ₹7–8 per report passively — at 2,000 reports/month that's ₹14,000–16,000 you earn while sleeping. It grows every month as the user base expands. <strong style="color:var(--jdm);">No traditional practice gives you this.</strong></div>
+          </div>
+
+          <div style="background:rgba(201,160,48,.07);border:1px solid rgba(201,160,48,.18);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-gold" style="margin-bottom:3px;">🧠 Your knowledge outlives your practice</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Every Q&A session, every case you log, every correction you make — all preserved in the knowledge base. In 10 years, even if you reduce your active consulting, your Vaastu methodology continues teaching thousands of families. <strong style="color:var(--gdm);">No pandit can say their knowledge will outlive them at scale.</strong></div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-sf" style="margin-bottom:3px;">📊 Your reputation becomes measurable</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Client ratings, report accuracy scores, knowledge validation rate — your expertise becomes verifiable, not just word-of-mouth. A 4.8★ rating from 300 verified clients is a credential no traditional practice generates. <strong style="color:#FB923C;">This is how you become the named authority in Bengaluru Vaastu.</strong></div>
+          </div>
+
+          <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:9px;">
+            <div class="diff-badge db-jade" style="margin-bottom:3px;">🏢 Commercial clients you couldn't reach before</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Business owners searching for factory or office Vaastu today pay ₹25,000+ and get a one-time visit. Through VaastuVerse, they find you, pay ₹999–1,999, and become a client on your platform. You get commercial reach without any marketing spend. <strong style="color:var(--jdm);">Your network reaches people who would never have found you otherwise.</strong></div>
+          </div>
+        </div>
+        <div class="tbar" style="background:#1A1A24;border-top-color:#2A2A3A;">
+          <div class="ti"><div class="tii">📊</div><div class="til" style="color:rgba(255,255,255,.4);">Home</div></div>
+          <div class="ti"><div class="tii">👥</div><div class="til" style="color:rgba(255,255,255,.4);">Clients</div></div>
+          <div class="ti on"><div class="tii">💬</div><div class="til" style="color:var(--jdm);">Teach</div></div>
+          <div class="ti"><div class="tii">💰</div><div class="til" style="color:rgba(255,255,255,.4);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#34D399;">S2 — What Shruti Gains That's Unique</h3>
+    <div class="ni"><h4 style="color:#34D399;">Four benefits framed as competitive advantages vs traditional practice</h4><ul><li><strong>Passive income (jade)</strong> — "Income that doesn't need your time" with the exact maths: ₹7–8/report × 2,000 = ₹14–16K/mo. "No traditional practice gives you this" is the explicit differentiator.</li><li><strong>Knowledge legacy (gold)</strong> — "Your knowledge outlives your practice." Senior experts care deeply about this. The phrase "No pandit can say their knowledge will outlive them at scale" is provocative but true.</li><li><strong>Measurable reputation (saffron)</strong> — 4.8★ from verified clients is a credential. "How you become the named authority in Bengaluru Vaastu."</li><li><strong>Commercial reach (jade)</strong> — Business owners who would never find her via word-of-mouth.</li></ul></div>
+    <div class="ni"><h4 style="color:#34D399;">Why this screen needs to exist</h4><p>Shruti's onboarding must include a screen that answers "what do I specifically get from this that I can't get from just continuing my existing practice?" Without this answer, she treats the platform as administrative overhead. With it, she treats it as a growth multiplier.</p></div>
+  </div>
+</div>
+
+</div><!-- end shruti -->
+
+<!-- ═══════════════════════════════════════════
+     NEW GURUJI JOURNEY
+═══════════════════════════════════════════ -->
+<div class="journey" id="j-guruji">
+
+<!-- G1: INVITATION — with reputation protection assurance -->
+<div class="sw on" id="sw-g1">
+  <div class="pcol">
+    <div class="plbl">New Guruji invite — with protection assurances</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:linear-gradient(155deg,var(--gdl) 0%,#FFFAEE 60%,var(--cr) 100%);">
+        <div class="sb"><span class="sbt" style="color:var(--ink);">9:41</span><span style="font-size:9px;color:var(--ink3);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;padding:14px;">
+          <div style="text-align:center;margin-bottom:12px;">
+            <div style="font-size:24px;margin-bottom:5px;">🕉</div>
+            <div style="font-family:'Fraunces',serif;font-size:17px;color:var(--ink);margin-bottom:2px;">Personal invitation</div>
+            <div style="font-size:10px;color:var(--ink3);">to join the VaastuVerse Guruji Council</div>
+          </div>
+
+          <!-- Shruti's note -->
+          <div style="background:var(--gdl);border:2px solid rgba(201,160,48,.3);border-radius:12px;padding:11px;margin-bottom:10px;">
+            <div style="font-size:8px;font-weight:700;color:var(--gd);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">FROM SHRUTI GUPTA · PARAM GURUJI</div>
+            <div style="font-family:'Fraunces',serif;font-size:11px;font-style:italic;color:var(--ink2);line-height:1.65;">"Vijay ji, your 25 years in South Indian Vaastu is knowledge I cannot replicate. I am building a platform where our combined expertise reaches thousands of Bengaluru families. I would be honoured if you joined as a founding Tier 1 Guruji — on your terms."</div>
+            <div style="font-size:9px;color:var(--gd);font-weight:600;margin-top:5px;">— Shruti Gupta</div>
+          </div>
+
+          <!-- REPUTATION PROTECTION — the key missing assurance -->
+          <div style="background:white;border:1.5px solid rgba(26,122,94,.25);border-radius:10px;padding:10px;margin-bottom:9px;">
+            <div style="font-size:8px;font-weight:700;color:var(--jd);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;">YOUR REPUTATION IS PROTECTED</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;gap:7px;align-items:flex-start;"><span style="color:var(--jd);font-size:11px;flex-shrink:0;">✓</span><div style="font-size:9px;color:var(--ink2);">You can correct or withdraw any knowledge entry you've contributed — at any time, permanently</div></div>
+              <div style="display:flex;gap:7px;align-items:flex-start;"><span style="color:var(--jd);font-size:11px;flex-shrink:0;">✓</span><div style="font-size:9px;color:var(--ink2);">No report goes out using your knowledge unless the overall methodology has been reviewed by a T1 Guruji</div></div>
+              <div style="display:flex;gap:7px;align-items:flex-start;"><span style="color:var(--jd);font-size:11px;flex-shrink:0;">✓</span><div style="font-size:9px;color:var(--ink2);">Your name is attributed correctly — reports show which Guruji's knowledge was used, with your specialisation</div></div>
+              <div style="display:flex;gap:7px;align-items:flex-start;"><span style="color:var(--jd);font-size:11px;flex-shrink:0;">✓</span><div style="font-size:9px;color:var(--ink2);">If you disagree with how a ruling was applied, you can raise a dispute — your T1 authority means your correction wins</div></div>
+            </div>
+          </div>
+
+          <!-- What you get -->
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;"><span style="font-size:14px;">💰</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Passive income · ₹6–8 per report influenced</div><div style="font-size:8px;color:var(--ink3);">Grows as platform grows — without more of your time</div></div></div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;"><span style="font-size:14px;">🧠</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Your knowledge preserved at scale</div><div style="font-size:8px;color:var(--ink3);">Teaches families beyond your active consulting years</div></div></div>
+            <div class="cdw" style="display:flex;gap:7px;align-items:center;"><span style="font-size:14px;">👑</span><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Canonical authority — your ruling is final</div><div style="font-size:8px;color:var(--ink3);">No junior can override your interpretation</div></div></div>
+          </div>
+
+          <button class="btn-gd" style="font-size:13px;margin-bottom:6px;">Accept Invitation →</button>
+          <button style="width:100%;background:transparent;border:1px solid var(--bd);border-radius:9px;padding:8px 0;font-size:11px;color:var(--ink3);">Ask Shruti a question first</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FCD34D;">G1 — Invitation: Reputation Protection Front and Centre</h3>
+    <div class="ni"><h4 style="color:#FCD34D;">The missing element from v2 — explicit reputation protection</h4><p>A senior Vaastu master's first question is: "what if the AI misrepresents my teaching?" The "YOUR REPUTATION IS PROTECTED" box directly addresses this with four specific commitments: withdraw entries anytime, no report without T1 review, correct attribution, and dispute resolution. These are not implied — they must be stated explicitly before any earnings or benefits. Senior experts won't trade their reputation for money. Reassure them first.</p></div>
+    <div class="ni"><h4 style="color:#FCD34D);">"Ask Shruti a question first" — the respect button</h4><p>Below the Accept CTA: "Ask Shruti a question first." For a senior practitioner, the ability to have a direct dialogue with the founding Guruji before committing is essential. This is peer-to-peer, not platform-to-user. Tapping this opens a WhatsApp conversation with Shruti directly — not a form.</p></div>
+    <div class="ni"><h4 style="color:#FCD34D;">"On your terms" — three words that change the tone</h4><p>Shruti's note ends "I would be honoured if you joined — on your terms." Two words that transform an invitation from a platform into a partnership. Senior experts join partnerships, not products. This phrasing costs nothing and changes everything.</p></div>
+  </div>
+</div>
+
+<!-- G2: WHAT NEW GURUJI GAINS — vs continuing solo practice -->
+<div class="sw" id="sw-g2">
+  <div class="pcol">
+    <div class="plbl">New Guruji — benefits vs solo practice</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sbt" style="color:rgba(255,255,255,.8);">9:44</span><span style="font-size:9px;color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;">
+          <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--gdm);">What you gain</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.4);">Beyond your existing practice — what VaastuVerse uniquely adds</div>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+
+          <div style="background:rgba(201,160,48,.08);border:1px solid rgba(201,160,48,.18);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-gold" style="margin-bottom:3px;">💰 Income while you're not consulting</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Your direct practice is capped by your time. VaastuVerse pays ₹6–8 for every report influenced by your knowledge — no matter when it's generated. At 1,500 reports/month, that's ₹9,000–12,000 monthly with zero additional work. <strong style="color:var(--gdm);">It increases every month as the platform grows.</strong></div>
+          </div>
+
+          <div style="background:rgba(201,160,48,.07);border:1px solid rgba(201,160,48,.15);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-gold" style="margin-bottom:3px;">🏆 Your South Indian expertise reaches all of Bengaluru</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Your specialisation in South Indian Vaastu fills a gap that Shruti herself acknowledges. Every apartment in Bengaluru built on land with South Indian architectural heritage will be analysed using <em>your</em> specific methodology. Not generic North Indian Vaastu rules applied universally. <strong style="color:var(--gdm);">Your niche becomes a platform strength.</strong></div>
+          </div>
+
+          <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);border-radius:10px;padding:9px;margin-bottom:7px;">
+            <div class="diff-badge db-jade" style="margin-bottom:3px;">📈 Consultation bookings from verified, warm leads</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Clients who've already received a VaastuVerse report and want to go deeper will book a consultation with you directly. They arrive pre-educated — they know their zone scores, they've read the remedies, they come with specific questions. <strong style="color:var(--jdm);">These are the most productive consultation calls you'll ever have.</strong></div>
+          </div>
+
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px;">
+            <div class="diff-badge db-sf" style="margin-bottom:3px;">🌐 Commercial clients — factories, offices, showrooms</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.7);line-height:1.5;">Business owners searching for industrial Vaastu currently pay ₹25,000 for a site visit or rely on unverified consultants. Through VaastuVerse, they find your expertise at an accessible entry price — and then book the full consultation. <strong style="color:#FB923C);">Commercial clients are your highest-value segment.</strong></div>
+          </div>
+        </div>
+        <div class="tbar" style="background:#1A1A24;border-top-color:#2A2A3A;">
+          <div class="ti on"><div class="tii">📊</div><div class="til" style="color:var(--gdm);">Home</div></div>
+          <div class="ti"><div class="tii">💬</div><div class="til" style="color:rgba(255,255,255,.4);">Teach</div></div>
+          <div class="ti"><div class="tii">⚡</div><div class="til" style="color:rgba(255,255,255,.4);">Conflicts</div></div>
+          <div class="ti"><div class="tii">💰</div><div class="til" style="color:rgba(255,255,255,.4);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3 style="color:#FCD34D;">G2 — New Guruji: Benefits Unique to VaastuVerse</h3>
+    <div class="ni"><h4 style="color:#FCD34D;">Four benefits — each with "no traditional practice gives you this" framing</h4><ul><li><strong>Passive income</strong> — specific maths: ₹6–8 × 1,500 reports = ₹9–12K/mo growing monthly</li><li><strong>Specialisation as platform strength</strong> — "South Indian Vaastu fills a gap Shruti acknowledges." Making him feel uniquely needed, not interchangeable</li><li><strong>Pre-educated consultation clients</strong> — "Most productive calls you'll ever have." Addresses a specific pain point every consultant has: clients who come in knowing nothing and take 30 minutes to explain basic concepts</li><li><strong>Commercial clients</strong> — factories and offices are his highest-value segment. The platform is a discovery mechanism for clients he would never have found through word-of-mouth</li></ul></div>
+    <div class="ni"><h4 style="color:#FCD34D;">What's different from v2</h4><p>v2 showed a generic benefits list ("passive income, knowledge preserved, canonical authority"). This version makes each benefit specific to Vijay's situation — his South Indian specialisation, his consultation workflow, his commercial expertise. Specificity converts. Generic lists don't.</p></div>
+  </div>
+</div>
+
+</div><!-- end guruji -->
+
+</div><!-- end stage -->
+
+<script>
+const D = {
+  client:[
+    {id:'c1',l:'C1 · Home + Use Cases',c:'ac'},
+    {id:'c2',l:'C2 · Business Vaastu',c:'ac'},
+    {id:'c3',l:'C3 · Differentiators',c:'ac'},
+    {id:'c4',l:'C4 · Factory Report',c:'ac'},
+  ],
+  shruti:[
+    {id:'s1',l:'S1 · Practice Stays Hers',c:'as'},
+    {id:'s2',l:'S2 · What She Gains',c:'as'},
+  ],
+  guruji:[
+    {id:'g1',l:'G1 · Invite + Protection',c:'ag'},
+    {id:'g2',l:'G2 · What He Gains',c:'ag'},
+  ]
+};
+let cur='client';
+function sw(j,btn){
+  cur=j;
+  document.querySelectorAll('.journey').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.ut').forEach(e=>e.className='ut');
+  document.getElementById('j-'+j).classList.add('active');
+  btn.classList.add(j==='client'?'oc':j==='shruti'?'os':'og');
+  buildNav(j); showFirst(j);
+}
+function buildNav(j){
+  const n=document.getElementById('snav'); n.innerHTML='';
+  D[j].forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='sn'+(i===0?' '+s.c:'');
+    b.textContent=s.l;
+    b.onclick=function(){show(s.id,this,s.c);};
+    n.appendChild(b);
+  });
+}
+function showFirst(j){
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sw-'+D[j][0].id).classList.add('on');
+}
+function show(id,btn,cls){
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.sn').forEach(b=>b.classList.remove('ac','as','ag'));
+  document.getElementById('sw-'+id).classList.add('on');
+  btn.classList.add(cls);
+}
+buildNav('client');
+</script>
+</body>
+</html>

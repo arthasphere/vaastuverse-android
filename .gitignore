@@ -1,0 +1,2 @@
+# Add project-specific machine properties (SDK path). Do not commit secrets.
+local.properties

@@ -1,0 +1,4 @@
+# Add this line (with your PC IPv4) when testing on a physical device against Docker on Windows:
+# vaastuverse.gatewayHost=192.168.1.100
+#
+# Android Studio also writes sdk.dir here — do not commit real secrets.

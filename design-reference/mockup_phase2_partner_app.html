@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VaastuVerse — Partner App Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tl:#0A7B6A;--tll:#E0F4F1;--tlm:#6CC4B4;
+  --pu:#5B3FA6;--pul:#EEEDFE;--pum:#A78BFA;
+  --am:#D4860A;--aml:#FFF4E0;--amm:#F5C76A;
+  --gd:#B8860B;--gdl:#FFF3DC;--gdm:#D4A830;
+  --bl:#1A4F8A;--bll:#E6EEF8;
+  --ink:#0F1923;--ink2:#2D3E50;--ink3:#8A97A6;
+  --sf2:#F5F7FA;--wh:#FFFFFF;--bd2:#E0E6ED;
+  --red:#C0392B;--redl:#FDECEA;
+  --doc:#111318;--doc2:#181C26;--docb:#272F42;--doct:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--doc);color:#E2E8F0;font-family:'Instrument Sans',sans-serif;font-size:13px;}
+.ph{background:var(--doc2);border-bottom:1px solid var(--docb);padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.ph-title{font-family:'Fraunces',serif;font-size:18px;color:var(--tlm);}
+.ph-sub{font-size:11px;color:var(--doct);margin-top:2px;}
+.sn{background:var(--doc2);border-bottom:1px solid var(--docb);padding:.6rem 2rem;display:flex;gap:5px;overflow-x:auto;}
+.snb{background:transparent;border:1px solid var(--docb);border-radius:6px;padding:5px 11px;font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--doct);cursor:pointer;white-space:nowrap;transition:all .15s;}
+.snb.active,.snb:hover{color:#E2E8F0;}
+.snb.active{border-color:rgba(108,196,180,.4);background:rgba(108,196,180,.07);}
+.snb.ag{border-color:rgba(212,160,48,.3)!important;}
+.snb.ag.active{background:rgba(212,160,48,.08)!important;color:var(--gdm)!important;}
+.snb.ad{border-color:rgba(91,63,166,.3)!important;}
+.snb.ad.active{background:rgba(91,63,166,.08)!important;color:var(--pum)!important;}
+.snb.ac{border-color:rgba(10,123,106,.3)!important;}
+.snb.ac.active{background:rgba(10,123,106,.08)!important;color:var(--tlm)!important;}
+.stage{padding:2rem;display:flex;flex-wrap:wrap;gap:2.5rem;align-items:flex-start;}
+.sw{display:none;width:100%;}
+.sw.on{display:flex;gap:2.5rem;flex-wrap:wrap;align-items:flex-start;}
+.pc{display:flex;flex-direction:column;align-items:center;gap:.6rem;}
+.pc-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--doct);text-align:center;}
+.nc{flex:1;min-width:260px;max-width:380px;}
+.nc h3{font-size:12px;font-weight:600;margin-bottom:.65rem;padding-bottom:.35rem;border-bottom:1px solid var(--docb);}
+.ni{margin-bottom:.65rem;}
+.ni h4{font-size:10px;font-weight:600;margin-bottom:1px;letter-spacing:.04em;}
+.ni p,.ni li{font-size:10px;color:var(--doct);line-height:1.55;}
+.ni ul{padding-left:.8rem;}
+/* phone */
+.phone{width:275px;background:#0A0A0C;border-radius:38px;padding:10px;box-shadow:0 0 0 1px #2A2A3A,0 20px 60px rgba(0,0,0,.6),0 0 0 8px #1A1A24,0 0 0 9px #0A0A14;flex-shrink:0;}
+.notch{width:80px;height:22px;background:#0A0A0C;border-radius:0 0 14px 14px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;}
+.nc2{width:8px;height:8px;border-radius:50%;background:#1A1A24;}
+.scr{border-radius:28px;overflow:hidden;height:540px;display:flex;flex-direction:column;}
+.sb{padding:6px 16px 3px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sb-t{font-size:11px;font-weight:600;}
+.sb-i{font-size:9px;}
+.tab-b{background:white;border-top:1px solid var(--bd2);padding:6px 0 10px;display:flex;justify-content:space-around;flex-shrink:0;}
+.ti{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.ti-i{font-size:18px;line-height:1;}
+.ti-l{font-size:7px;color:var(--ink3);}
+.ti.on .ti-l{font-weight:700;}
+.body{flex:1;overflow:hidden;}
+/* in-screen typography */
+.s1{font-family:'Fraunces',serif;font-size:18px;font-weight:600;line-height:1.2;}
+.s2{font-family:'Fraunces',serif;font-size:14px;font-weight:600;}
+.s3{font-size:12px;font-weight:700;}
+.sb2{font-size:10px;line-height:1.5;}
+.stag2{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;}
+/* buttons */
+.btn-tl{background:var(--tl);color:white;border:none;border-radius:9px;padding:9px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;}
+.btn-pu{background:var(--pu);color:white;border:none;border-radius:9px;padding:9px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;}
+.btn-gd{background:var(--gdm);color:white;border:none;border-radius:9px;padding:9px 0;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;width:100%;}
+.btn-out{background:transparent;border:1.5px solid;border-radius:9px;padding:8px 0;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:600;width:100%;}
+.inp{border:1px solid var(--bd2);border-radius:8px;padding:8px 10px;font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--ink);background:var(--wh);width:100%;}
+.lbl{font-size:8px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:2px;display:block;}
+.cd{background:white;border:1px solid var(--bd2);border-radius:11px;padding:9px;}
+.pad{padding:10px 13px;}
+.div2{height:1px;background:var(--bd2);margin:7px 0;}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd2);}
+.row:last-child{border:none;}
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;}
+.pv{background:var(--tll);color:var(--tl);}
+.pi2{background:var(--pul);color:var(--pu);}
+.pg{background:var(--gdl);color:var(--gd);}
+.pa{background:var(--aml);color:var(--am);}
+/* credit badge */
+.cr-badge{border-radius:8px;padding:7px 9px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.cr-v{background:var(--tll);color:var(--tl);border:1px solid rgba(10,123,106,.2);}
+.cr-i{background:var(--pul);color:var(--pu);border:1px solid rgba(91,63,166,.2);}
+.cr-g{background:var(--gdl);color:var(--gd);border:1px solid rgba(184,134,11,.2);}
+.progbar{height:4px;background:#E0E6ED;border-radius:2px;overflow:hidden;margin:3px 0;}
+.progfill{height:100%;border-radius:2px;}
+/* section divider label in nav */
+.sn-section{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--doct);opacity:.5;padding:5px 3px 2px;flex-shrink:0;align-self:flex-end;}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div>
+    <div class="ph-title">VaastuVerse · Partner App Mockup</div>
+    <div class="ph-sub">Three partner types · Correct credit access per type</div>
+  </div>
+</div>
+
+<div class="sn">
+  <span class="sn-section">👑 GURUJI</span>
+  <button class="snb ag active" onclick="show('g-home')">G1 · Home</button>
+  <button class="snb ag" onclick="show('g-qa')">G2 · Q&A Session</button>
+  <button class="snb ag" onclick="show('g-conflict')">G3 · Conflict Queue</button>
+  <button class="snb ag" onclick="show('g-earnings')">G4 · Earnings</button>
+  <span class="sn-section">🛋 DESIGNER</span>
+  <button class="snb ad" onclick="show('d-home')">D1 · Home</button>
+  <button class="snb ad" onclick="show('d-credits')">D2 · Credits</button>
+  <button class="snb ad" onclick="show('d-renders')">D3 · My Renders</button>
+  <button class="snb ad" onclick="show('d-earnings')">D4 · Earnings</button>
+  <span class="sn-section">🤝 CHANNEL</span>
+  <button class="snb ac" onclick="show('c-home')">C1 · Home</button>
+  <button class="snb ac" onclick="show('c-credits')">C2 · Buy Credits</button>
+  <button class="snb ac" onclick="show('c-bundle')">C3 · Bundle Offer</button>
+  <button class="snb ac" onclick="show('c-earnings')">C4 · Earnings</button>
+</div>
+
+<div class="stage">
+
+<!-- ════════════════ GURUJI SCREENS ════════════════ -->
+
+<!-- G1: GURUJI HOME -->
+<div class="sw on" id="sw-g-home">
+  <div class="pc">
+    <div class="pc-lbl">👑 Guruji · Home Dashboard</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sb-t" style="color:rgba(255,255,255,.8);">9:41</span><span class="sb-i" style="color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;padding:12px;">
+          <!-- Guruji identity -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gdm),var(--gd));display:flex;align-items:center;justify-content:center;font-size:18px;">🕉</div>
+            <div>
+              <div style="font-family:'Fraunces',serif;font-size:14px;color:white;">Shruti Gupta</div>
+              <div style="background:rgba(212,160,48,.15);border:1px solid rgba(212,160,48,.3);border-radius:4px;padding:1px 7px;display:inline-block;margin-top:2px;">
+                <span style="font-size:9px;font-weight:700;color:var(--gdm);">👑 TIER 1 · PARAM GURUJI</span>
+              </div>
+            </div>
+          </div>
+          <!-- Impact stats -->
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(212,160,48,.15);border-radius:10px;padding:10px;margin-bottom:12px;">
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;">YOUR KNOWLEDGE IMPACT</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;color:var(--gdm);">847</div><div style="font-size:8px;color:rgba(255,255,255,.4);">Knowledge entries</div></div>
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;color:var(--tlm);">2,341</div><div style="font-size:8px;color:rgba(255,255,255,.4);">Reports influenced</div></div>
+              <div style="text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;color:var(--amm);">₹18.2K</div><div style="font-size:8px;color:rgba(255,255,255,.4);">Earned this month</div></div>
+            </div>
+          </div>
+          <!-- Action cards -->
+          <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">TODAY'S SESSIONS</div>
+          <div style="background:rgba(212,160,48,.08);border:1px solid rgba(212,160,48,.25);border-radius:10px;padding:9px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:11px;font-weight:700;color:var(--gdm);">💬 Q&A Session</div><div style="font-size:9px;color:rgba(255,255,255,.4);">8 questions waiting · ~20 min</div></div>
+            <div style="background:var(--gdm);color:white;border-radius:6px;padding:4px 10px;font-size:9px;font-weight:700;">Start</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:9px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:11px;font-weight:700;color:#FCA5A5;">⚡ Conflict Queue</div><div style="font-size:9px;color:rgba(255,255,255,.4);">2 open conflicts need your ruling</div></div>
+            <div style="background:rgba(239,68,68,.2);color:#FCA5A5;border:1px solid rgba(239,68,68,.3);border-radius:6px;padding:4px 10px;font-size:9px;font-weight:700;">2 open</div>
+          </div>
+          <div style="background:rgba(26,122,94,.08);border:1px solid rgba(26,122,94,.25);border-radius:10px;padding:9px;display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:11px;font-weight:700;color:var(--tlm);">📋 Report Reviews</div><div style="font-size:9px;color:rgba(255,255,255,.4);">4 reports awaiting your review</div></div>
+            <div style="background:rgba(26,122,94,.2);color:var(--tlm);border:1px solid rgba(26,122,94,.3);border-radius:6px;padding:4px 10px;font-size:9px;font-weight:700;">Review</div>
+          </div>
+          <div class="div2" style="background:rgba(255,255,255,.08);margin:10px 0;"></div>
+          <!-- No credits section -->
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 10px;text-align:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,.3);margin-bottom:2px;">CREDIT ACCESS</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.5);">Gurujis do not buy credits — your knowledge <em>creates</em> the reports. You earn revenue share on every report your knowledge powers.</div>
+          </div>
+        </div>
+        <div class="tab-b" style="background:#1A1A24;border-top-color:#2A2A3A;">
+          <div class="ti on"><div class="ti-i">📊</div><div class="ti-l" style="color:var(--gdm);">Dashboard</div></div>
+          <div class="ti"><div class="ti-i">💬</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Teach</div></div>
+          <div class="ti"><div class="ti-i">⚡</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Conflicts</div></div>
+          <div class="ti"><div class="ti-i">💰</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>G1 — Guruji Home Dashboard</h3>
+    <div class="ni"><h4 style="color:var(--gdm);">Dark theme for Gurujis</h4><p>Guruji admin uses ink-dark background — signals a privileged, high-trust interface. Gold accents (gdm) throughout. Tier 1 badge prominent in identity header.</p></div>
+    <div class="ni"><h4 style="color:var(--gdm);">Impact stats — not credit stats</h4><p>Gurujis see Knowledge entries, Reports influenced, and Earnings — never credit balances. They create value, not consume it. This framing makes them feel like authors, not users.</p></div>
+    <div class="ni"><h4 style="color:#FCA5A5);">Conflict queue — red alert</h4><p>Open conflicts shown in red with a badge count. This is the highest-priority action for a Tier 1 Guruji. Cannot be dismissed until resolved — nags weekly.</p></div>
+    <div class="ni"><h4 style="color:var(--gdm);">No credits section</h4><p>Explicit grey box at bottom: "Gurujis do not buy credits — your knowledge creates the reports." Clear, honest, and reinforces their special status.</p></div>
+  </div>
+</div>
+
+<!-- G2: Q&A SESSION -->
+<div class="sw" id="sw-g-qa">
+  <div class="pc">
+    <div class="pc-lbl">👑 Guruji · Q&A Session</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sb-t" style="color:rgba(255,255,255,.8);">9:42</span><span class="sb-i" style="color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;">
+          <div style="background:var(--ink);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+            <span style="font-family:'Fraunces',serif;font-size:13px;color:var(--gdm);">Q&A Session</span>
+            <span style="font-size:9px;color:rgba(255,255,255,.35);">Q4 of 8 · 20 min</span>
+          </div>
+          <div style="padding:11px 13px;">
+            <!-- Progress dots -->
+            <div style="display:flex;gap:4px;margin-bottom:12px;">
+              <div style="flex:1;height:3px;background:var(--gdm);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:var(--gdm);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:var(--gdm);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:var(--gdm);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:2px;"></div>
+              <div style="flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:2px;"></div>
+            </div>
+            <!-- AI question bubble -->
+            <div style="background:rgba(10,123,106,.12);border:1px solid rgba(10,123,106,.25);border-radius:0 11px 11px 11px;padding:10px;margin-bottom:10px;">
+              <div style="font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tlm);margin-bottom:5px;">🤖 AI KNOWLEDGE GAP QUERY</div>
+              <div style="font-size:11px;color:#E2E8F0;line-height:1.55;">Shruti ji — when a kitchen is in the NW zone but the cook is forced to face West due to platform layout, how do you score this? Is facing direction or zone placement more important in your ruling?</div>
+              <div style="margin-top:5px;"><span style="font-size:8px;background:rgba(10,123,106,.2);color:var(--tlm);padding:2px 7px;border-radius:4px;">Zone: NW Kitchen · Topic: Scoring priority</span></div>
+            </div>
+            <!-- Answer field -->
+            <label class="lbl" style="color:rgba(255,255,255,.5);">Your Ruling (stored at Tier 1 weight)</label>
+            <textarea style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:9px 11px;font-family:'Instrument Sans',sans-serif;font-size:11px;color:white;resize:none;min-height:80px;outline:none;" placeholder="Type your ruling here…">Zone placement is more critical. NW kitchen scores 55-60 regardless of facing. If cook faces West, deduct 5 more. U-shape counter recommended to enable East-facing cook even in NW zone.</textarea>
+            <!-- Action buttons -->
+            <div style="display:flex;gap:6px;margin-top:8px;margin-bottom:10px;">
+              <button class="btn-gd" style="flex:2;font-size:11px;">Save to Knowledge Base</button>
+              <button style="flex:1;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:8px;font-size:10px;color:rgba(255,255,255,.5);background:transparent;">Skip</button>
+            </div>
+            <!-- Already saved -->
+            <div style="font-size:9px;color:rgba(255,255,255,.35);text-align:center;">✓ Q1 saved · ✓ Q2 saved · ✓ Q3 saved · Q4 active…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>G2 — Guruji Q&A Teaching Session</h3>
+    <div class="ni"><h4 style="color:var(--tlm);">AI question bubble (jade)</h4><p>Left-aligned jade bubble signals AI speaking, not user. Shows the zone/topic tag below so Shruti can orient quickly without reading the full question.</p></div>
+    <div class="ni"><h4 style="color:var(--gdm);">Dark textarea</h4><p>Dark glass-style textarea — white text on dark bg. Feels like a professional tool, not a consumer form. Save button is gold (gdm) — signals "this becomes permanent".</p></div>
+    <div class="ni"><h4 style="color:var(--gdm);">Progress bar</h4><p>8 segments showing question progress. Gold = answered, dark = remaining. Simple visual motivator — Shruti can see the end from the beginning.</p></div>
+    <div class="ni"><h4>Skip option</h4><p>Ghost-style Skip button — de-emphasised. Skipped questions return to queue next session. Shruti is never forced to answer something she's unsure about.</p></div>
+  </div>
+</div>
+
+<!-- G3: CONFLICT QUEUE -->
+<div class="sw" id="sw-g-conflict">
+  <div class="pc">
+    <div class="pc-lbl">👑 Guruji · Conflict Resolution</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sb-t" style="color:rgba(255,255,255,.8);">9:43</span><span class="sb-i" style="color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-family:'Fraunces',serif;font-size:13px;color:var(--gdm);">Conflict Queue</span>
+          <div style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:20px;padding:2px 9px;font-size:9px;color:#FCA5A5;font-weight:700;">2 open</div>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:11px 13px;">
+          <div style="font-size:9px;color:rgba(255,255,255,.4);margin-bottom:10px;">The AI detected conflicts in the knowledge base. Your resolution becomes the canonical ruling for all future reports.</div>
+          <!-- Conflict card -->
+          <div style="background:rgba(212,134,10,.08);border:1px solid rgba(212,134,10,.25);border-radius:10px;padding:10px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:7px;">
+              <span style="font-size:10px;font-weight:700;color:var(--amm);">CONFLICT · T2 vs T1</span>
+              <span class="pill pa" style="font-size:8px;">Kitchen · NE sink</span>
+            </div>
+            <!-- Side by side -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;">
+              <div style="background:rgba(212,160,48,.08);border:1px solid rgba(212,160,48,.2);border-radius:6px;padding:6px;">
+                <div style="font-size:7px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gdm);margin-bottom:3px;">👑 T1 · YOUR RULING</div>
+                <div style="font-size:10px;color:#E2E8F0;">Sink in NE corner of kitchen.</div>
+              </div>
+              <div style="background:rgba(91,63,166,.08);border:1px solid rgba(91,63,166,.2);border-radius:6px;padding:6px;">
+                <div style="font-size:7px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pum);margin-bottom:3px;">🎓 T2 GURUJI</div>
+                <div style="font-size:10px;color:#E2E8F0;">Sink should be on North wall.</div>
+              </div>
+            </div>
+            <!-- AI question -->
+            <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:6px;padding:7px;margin-bottom:7px;">
+              <div style="font-size:7px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FCD34D;margin-bottom:3px;">🤖 AI SMART QUESTION</div>
+              <div style="font-size:10px;color:#E2E8F0;">Do both rulings refer to same layouts, or is North placement specific to kitchens where NE is blocked by stove?</div>
+            </div>
+            <textarea style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:7px 9px;font-family:'Instrument Sans',sans-serif;font-size:10px;color:white;resize:none;min-height:50px;outline:none;" placeholder="Type your clarification or ruling…"></textarea>
+            <div style="display:flex;gap:5px;margin-top:6px;">
+              <button class="btn-tl" style="flex:2;font-size:10px;padding:7px 0;">Resolve & Save</button>
+              <button style="flex:1;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:7px;font-size:9px;color:rgba(255,255,255,.4);background:transparent;">Later</button>
+            </div>
+          </div>
+          <!-- Resolved -->
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:9px;opacity:.5;">
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:10px;color:rgba(255,255,255,.5);">Conflict #2 · T3 vs T1</span>
+              <span class="pill pv" style="font-size:8px;">Resolved ✓</span>
+            </div>
+            <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;">North entrance Pada 4 · Resolved 28 Apr</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>G3 — Conflict Resolution Queue</h3>
+    <div class="ni"><h4 style="color:#FCA5A5;">Red badge on icon</h4><p>"2 open" red badge on Conflicts tab — cannot be hidden. Disappears only when queue is empty. Conflicts in "Later" state still show in count.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">Amber conflict card</h4><p>Amber tint (same-tier conflict) or red tint (T2 challenging T1). Side-by-side comparison in 2-column grid — gold header for T1, purple for T2 — easy to visually orient.</p></div>
+    <div class="ni"><h4 style="color:#FCD34D;">AI Smart Question</h4><p>Gold box with the AI's targeted question. This is the design centrepiece — shows the AI has understood the conflict and is asking intelligently, not just flagging it.</p></div>
+    <div class="ni"><h4>"Later" deferral</h4><p>Ghost button — very de-emphasised. When tapped: "Reports on this zone will include a caveat until resolved." Creates gentle pressure to resolve rather than defer indefinitely.</p></div>
+  </div>
+</div>
+
+
+<!-- G4: GURUJI EARNINGS -->
+<div class="sw" id="sw-g-earnings">
+  <div class="pc">
+    <div class="pc-lbl">👑 Guruji · Earnings &amp; Revenue Share</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--ink);">
+        <div class="sb" style="background:var(--ink);"><span class="sb-t" style="color:rgba(255,255,255,.8);">9:55</span><span class="sb-i" style="color:rgba(255,255,255,.4);">●●●● 🔋</span></div>
+        <div style="background:var(--ink);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-family:'Fraunces',serif;font-size:13px;color:var(--gdm);">Earnings</span>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">May 2026</span>
+        </div>
+        <div class="body" style="overflow-y:auto;">
+          <!-- Hero -->
+          <div style="background:linear-gradient(135deg,#6A4C0A,var(--gdm));padding:14px;text-align:center;color:white;">
+            <div style="font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px;">MAY 2026 · TOTAL EARNINGS</div>
+            <div style="font-family:'Fraunces',serif;font-size:30px;color:white;line-height:1;">₹18,240</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.55);margin-top:2px;">2,341 reports influenced · 847 knowledge entries</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:10px;">
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--gdm);">₹11.2K</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Revenue share</div></div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--tlm);">₹4,990</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Consultations</div></div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--amm);">₹2,050</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Q review bonus</div></div>
+            </div>
+          </div>
+          <div style="padding:10px 13px;">
+            <!-- Revenue share explained -->
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">EARNINGS BREAKDOWN</div>
+            <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);">
+                <div><div style="font-size:10px;color:rgba(255,255,255,.8);font-weight:600;">Revenue share — reports</div><div style="font-size:8px;color:rgba(255,255,255,.35);">₹4–8/report × 2,341 reports influenced</div></div>
+                <span style="font-size:11px;font-weight:700;color:var(--gdm);">₹11,200</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);">
+                <div><div style="font-size:10px;color:rgba(255,255,255,.8);font-weight:600;">Consultation sessions</div><div style="font-size:8px;color:rgba(255,255,255,.35);">2 sessions × ₹2,499 (full flat)</div></div>
+                <span style="font-size:11px;font-weight:700;color:var(--tlm);">₹4,990</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);">
+                <div><div style="font-size:10px;color:rgba(255,255,255,.8);font-weight:600;">Quality review bonus</div><div style="font-size:8px;color:rgba(255,255,255,.35);">Customer rating 4.8★ this month — bonus tier</div></div>
+                <span style="font-size:11px;font-weight:700;color:var(--amm);">₹2,050</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;">
+                <span style="font-size:11px;font-weight:700;color:white;">Total May</span>
+                <span style="font-size:13px;font-weight:700;color:var(--gdm);">₹18,240</span>
+              </div>
+            </div>
+            <!-- Quality rating card -->
+            <div style="background:rgba(212,160,48,.08);border:1px solid rgba(212,160,48,.2);border-radius:10px;padding:9px;margin-bottom:8px;">
+              <div style="font-size:9px;font-weight:700;color:var(--gdm);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;">⭐ CUSTOMER RATING — QUALITY BONUS</div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <div style="font-family:'Fraunces',serif;font-size:28px;color:var(--gdm);">4.8</div>
+                <div>
+                  <div style="display:flex;gap:2px;margin-bottom:2px;"><span style="color:var(--gdm);font-size:12px;">★★★★★</span></div>
+                  <div style="font-size:9px;color:rgba(255,255,255,.5);">Based on 31 verified report ratings</div>
+                </div>
+              </div>
+              <div style="font-size:9px;color:rgba(255,255,255,.55);margin-bottom:4px;">Your quality bonus tier this month:</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:8px;text-align:center;">
+                <div style="background:rgba(255,255,255,.05);border-radius:5px;padding:4px;color:rgba(255,255,255,.4);">★3.5–4.0<br>No bonus</div>
+                <div style="background:rgba(255,255,255,.05);border-radius:5px;padding:4px;color:rgba(255,255,255,.4);">★4.0–4.5<br>+5%</div>
+                <div style="background:rgba(212,160,48,.15);border-radius:5px;padding:4px;color:var(--gdm);font-weight:700;">★4.5+<br>+15% ← you</div>
+              </div>
+            </div>
+            <!-- Payout -->
+            <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px;display:flex;justify-content:space-between;align-items:center;">
+              <div><div style="font-family:'Fraunces',serif;font-size:18px;color:var(--gdm);">₹16,800</div><div style="font-size:8px;color:rgba(255,255,255,.35);">Payout due 1st June</div></div>
+              <button style="background:var(--gdm);color:white;border:none;border-radius:7px;padding:7px 12px;font-size:10px;font-weight:700;">Request Payout</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-b" style="background:#1A1A24;border-top-color:#2A2A3A;">
+          <div class="ti"><div class="ti-i">📊</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Dashboard</div></div>
+          <div class="ti"><div class="ti-i">💬</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Teach</div></div>
+          <div class="ti"><div class="ti-i">⚡</div><div class="ti-l" style="color:rgba(255,255,255,.4);">Conflicts</div></div>
+          <div class="ti on"><div class="ti-i">💰</div><div class="ti-l" style="color:var(--gdm);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>G4 — Guruji Earnings Screen</h3>
+    <div class="ni"><h4 style="color:var(--gdm);">Three income streams</h4>
+      <ul><li><strong>Revenue share (₹4–8/report)</strong> — passive income from every report the Guruji's knowledge powers. Rate scales with tier: T2 earns ₹4/report, T1 earns ₹6–8/report based on contribution density</li><li><strong>Consultation sessions</strong> — direct ₹2,499 (full flat) or ₹799 (quick) bookings routed to this Guruji</li><li><strong>Quality review bonus</strong> — percentage uplift on revenue share based on customer ratings. Incentivises quality, not just volume</li></ul></div>
+    <div class="ni"><h4 style="color:var(--gdm);">Customer rating drives bonus tier</h4><p>Ratings from verified customer feedback (post-report survey) determine the bonus tier: 3.5–4.0★ = no bonus · 4.0–4.5★ = +5% · 4.5+★ = +15%. This directly links Guruji earnings to knowledge quality — not just quantity of entries submitted.</p></div>
+    <div class="ni"><h4 style="color:var(--gdm);">Revenue share calculation</h4><p>₹4–8 per report sounds small, but at 2,341 reports influenced = ₹11,200/month passive. This grows exponentially as the Guruji adds more knowledge entries and the platform scales. Framing: "your knowledge earns while you sleep."</p></div>
+  </div>
+</div>
+
+<!-- ════════════════ DESIGNER SCREENS ════════════════ -->
+
+<!-- D1: DESIGNER HOME -->
+<div class="sw" id="sw-d-home">
+  <div class="pc">
+    <div class="pc-lbl">🛋 Interior Designer · Home</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:41</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;">
+          <!-- Header -->
+          <div style="background:linear-gradient(135deg,var(--pu),#7B5CC6);padding:14px;color:white;">
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:2px;">KAVITA INTERIORS · DESIGNER PARTNER</div>
+            <div style="font-family:'Fraunces',serif;font-size:16px;margin-bottom:10px;">Good morning, Kavita</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:white;">8</div><div style="font-size:7px;color:rgba(255,255,255,.6);">Render credits</div></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:white;">3</div><div style="font-size:7px;color:rgba(255,255,255,.6);">Vaastu credits</div></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:16px;color:#C4B5FD;">₹9.2K</div><div style="font-size:7px;color:rgba(255,255,255,.6);">This month</div></div>
+            </div>
+          </div>
+          <div class="pad">
+            <!-- Credit bars -->
+            <div class="cd" style="margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                <span style="font-size:10px;font-weight:600;color:var(--pu);">🖼 Render Credits</span>
+                <span style="font-size:10px;font-weight:700;color:var(--pu);">8 remaining</span>
+              </div>
+              <div class="progbar"><div class="progfill" style="width:80%;background:linear-gradient(90deg,var(--pu),var(--pum));"></div></div>
+              <div style="font-size:8px;color:var(--ink3);margin-top:2px;">Unlimited plan · Renews 1 Jun</div>
+            </div>
+            <div class="cd" style="margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                <span style="font-size:10px;font-weight:600;color:var(--tl);">📋 Vaastu Credits</span>
+                <span style="font-size:10px;font-weight:700;color:var(--tl);">3 remaining</span>
+              </div>
+              <div class="progbar"><div class="progfill" style="width:60%;background:linear-gradient(90deg,var(--tl),var(--tlm));"></div></div>
+              <div style="font-size:8px;color:var(--ink3);margin-top:2px;">Optional add-on · <span style="color:var(--tl);font-weight:600;">Buy more</span></div>
+            </div>
+            <!-- Quick actions -->
+            <div class="s3" style="margin-bottom:6px;font-size:10px;">Quick Actions</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;">
+              <button style="background:var(--pul);border:1px solid rgba(91,63,166,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--pu);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">🖼</span>New Render</button>
+              <button style="background:var(--tll);border:1px solid rgba(10,123,106,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--tl);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">📋</span>Check Layout</button>
+              <button style="background:var(--pul);border:1px solid rgba(91,63,166,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--pu);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">📂</span>My Renders</button>
+              <button style="background:var(--aml);border:1px solid rgba(212,134,10,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--am);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">💰</span>Earnings</button>
+            </div>
+            <!-- Recent -->
+            <div class="s3" style="margin-bottom:4px;font-size:10px;">Recent</div>
+            <div class="cd" style="display:flex;gap:8px;align-items:center;margin-bottom:5px;">
+              <span style="font-size:16px;">🖼</span>
+              <div style="flex:1;"><div class="s3" style="font-size:10px;">Living Room · Flat 4B</div><div style="font-size:9px;color:var(--ink3);">Render delivered · 30 Apr</div></div>
+              <span class="pill pi2" style="font-size:8px;">Done</span>
+            </div>
+            <div class="cd" style="display:flex;gap:8px;align-items:center;">
+              <span style="font-size:16px;">📋</span>
+              <div style="flex:1;"><div class="s3" style="font-size:10px;">Layout check · Tower C</div><div style="font-size:9px;color:var(--ink3);">Vaastu report · 29 Apr · Score 74</div></div>
+              <span class="pill pv" style="font-size:8px;">Used</span>
+            </div>
+          </div>
+        </div>
+        <div class="tab-b">
+          <div class="ti on"><div class="ti-i">📊</div><div class="ti-l" style="color:var(--pu);">Home</div></div>
+          <div class="ti"><div class="ti-i">🖼</div><div class="ti-l">Renders</div></div>
+          <div class="ti"><div class="ti-i">📋</div><div class="ti-l">Vaastu</div></div>
+          <div class="ti"><div class="ti-i">💰</div><div class="ti-l">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>D1 — Designer Home Dashboard</h3>
+    <div class="ni"><h4 style="color:var(--pum);">Purple accent theme</h4><p>Interior designers get a purple (--pu) accent throughout their app — distinct from Guruji gold and Channel Partner teal. Gradient header: purple → lighter purple.</p></div>
+    <div class="ni"><h4 style="color:var(--pum);">Two credit bars visible</h4><p>Both Render credits (purple, top priority) and Vaastu credits (teal, optional add-on) shown on home. "Buy more" teal link inline on Vaastu credits bar — surfaces the upsell gently.</p></div>
+    <div class="ni"><h4 style="color:var(--pum);">2×2 actions grid</h4><p>New Render and Check Layout are the two primary designer actions. My Renders and Earnings are secondary. Colour-coded: purple for render actions, teal for Vaastu, amber for earnings.</p></div>
+    <div class="ni"><h4>Separate tabs for Renders vs Vaastu</h4><p>Designer tab bar has dedicated Renders and Vaastu tabs — they're separate credit types, separate workflows, separate histories. Never conflate them.</p></div>
+  </div>
+</div>
+
+<!-- D2: DESIGNER CREDITS -->
+<div class="sw" id="sw-d-credits">
+  <div class="pc">
+    <div class="pc-lbl">🛋 Designer · Buy Credits</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:43</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--pu);padding:10px 13px;color:white;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">← Buy Credits</span>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:11px 13px;">
+          <!-- Render credits section -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pu);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;">🖼 Interior Render Credits</div>
+            <div style="background:var(--pul);border:1px solid rgba(91,63,166,.2);border-radius:10px;padding:8px 10px;margin-bottom:6px;text-align:center;">
+              <div style="font-size:8px;color:var(--pu);font-weight:600;margin-bottom:3px;">CURRENT PLAN · PRO DESIGNER</div>
+              <div style="font-size:10px;color:var(--ink2);">Unlimited renders · ₹1,499/mo · Renews 1 Jun</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <div class="cd" style="text-align:center;">
+                <div style="font-size:9px;color:var(--mt);margin-bottom:3px;">Starter</div>
+                <div style="font-family:'Fraunces',serif;font-size:18px;color:var(--ink);">₹999</div>
+                <div style="font-size:8px;color:var(--mt);margin-bottom:6px;">/mo · 5 renders</div>
+                <button style="background:var(--pul);border:1px solid rgba(91,63,166,.3);border-radius:6px;padding:4px 0;width:100%;font-size:9px;font-weight:600;color:var(--pu);">Downgrade</button>
+              </div>
+              <div class="cd" style="text-align:center;border-color:var(--pu);border-width:1.5px;">
+                <div style="font-size:9px;color:var(--pu);font-weight:600;margin-bottom:3px;">Studio</div>
+                <div style="font-family:'Fraunces',serif;font-size:18px;color:var(--pu);">₹3,999</div>
+                <div style="font-size:8px;color:var(--mt);margin-bottom:6px;">/mo · 3 logins</div>
+                <button class="btn-pu" style="padding:5px 0;font-size:9px;">Upgrade</button>
+              </div>
+            </div>
+          </div>
+          <div class="div2"></div>
+          <!-- Vaastu credits section -->
+          <div>
+            <div style="font-size:10px;font-weight:700;color:var(--tl);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">📋 Vaastu Report Credits <span style="background:var(--tll);color:var(--tl);border-radius:4px;padding:1px 6px;font-size:8px;font-weight:600;margin-left:4px;">Optional</span></div>
+            <div style="font-size:10px;color:var(--ink3);margin-bottom:8px;">Buy report credits to check a client's floor plan before designing. Know the zone issues before you commit to a layout direction.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">5-pack</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹1,245</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹249/report</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;border-color:var(--tl);">
+                <div style="font-size:8px;color:var(--tl);font-weight:600;">10-pack</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹2,390</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹239/report</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">20-pack</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹4,380</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹219/report</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>D2 — Designer Credit Management</h3>
+    <div class="ni"><h4 style="color:var(--pum);">Two clearly separated credit sections</h4><p>Render credits (purple, top) and Vaastu credits (teal, below divider) are visually distinct. Different headings, different colours, different UX flows — never conflate them in the same card.</p></div>
+    <div class="ni"><h4 style="color:var(--pum);">Render credits = subscription model</h4><p>Renders are a monthly subscription (Starter ₹999 / Pro ₹1,499 / Studio ₹3,999). Current plan highlighted, upgrade/downgrade options shown. No per-credit purchase for renders.</p></div>
+    <div class="ni"><h4 style="color:var(--tl);">Vaastu credits = pack model</h4><p>Vaastu credits are a one-time pack purchase (5/10/20 packs, discount at volume). "Optional" badge makes it clear this is an add-on. ₹249–299/credit vs ₹499 retail = strong designer incentive.</p></div>
+    <div class="ni"><h4>Pricing shown as per-credit rate</h4><p>Below the total price, show the per-report rate (₹299/report). This is the key comparison — designers compare against hiring a Vaastu pandit at ₹2,000+ per visit.</p></div>
+  </div>
+</div>
+
+<!-- D3: MY RENDERS -->
+<div class="sw" id="sw-d-renders">
+  <div class="pc">
+    <div class="pc-lbl">🛋 Designer · My Renders</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:44</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--pu);padding:10px 13px;color:white;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">My Renders</span>
+          <button style="background:rgba(255,255,255,.15);border:none;color:white;border-radius:5px;padding:3px 9px;font-size:9px;font-weight:600;">+ New Render</button>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+          <div class="cd" style="margin-bottom:6px;">
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <div style="width:44px;height:44px;border-radius:7px;background:linear-gradient(135deg,var(--pul),var(--tll));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🛋</div>
+              <div style="flex:1;">
+                <div class="s3" style="font-size:11px;">Living Room · Flat 4B</div>
+                <div style="font-size:9px;color:var(--ink3);">Vaastu: SW sofa, NE decor accent, SE light source</div>
+                <div style="display:flex;gap:4px;margin-top:4px;">
+                  <span class="pill pv" style="font-size:7px;">Vaastu ✓</span>
+                  <span class="pill pi2" style="font-size:7px;">White-label</span>
+                </div>
+              </div>
+              <div style="text-align:right;"><div style="font-size:8px;color:var(--ink3);">30 Apr</div><div style="font-size:9px;color:var(--pu);margin-top:3px;">Share →</div></div>
+            </div>
+          </div>
+          <div class="cd" style="margin-bottom:6px;">
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <div style="width:44px;height:44px;border-radius:7px;background:linear-gradient(135deg,var(--aml),var(--pul));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🍳</div>
+              <div style="flex:1;">
+                <div class="s3" style="font-size:11px;">Kitchen · Sarjapur Project</div>
+                <div style="font-size:9px;color:var(--ink3);">Hob on SE wall, sink NE, cook faces East</div>
+                <div style="display:flex;gap:4px;margin-top:4px;">
+                  <span class="pill pv" style="font-size:7px;">Vaastu ✓</span>
+                  <span class="pill pi2" style="font-size:7px;">White-label</span>
+                </div>
+              </div>
+              <div style="text-align:right;"><div style="font-size:8px;color:var(--ink3);">28 Apr</div><div style="font-size:9px;color:var(--pu);margin-top:3px;">Share →</div></div>
+            </div>
+          </div>
+          <!-- New render CTA -->
+          <div style="border:2px dashed rgba(91,63,166,.3);border-radius:10px;padding:12px;text-align:center;background:var(--pul);">
+            <div style="font-size:18px;margin-bottom:4px;">🖼</div>
+            <div style="font-size:11px;font-weight:700;color:var(--pu);margin-bottom:2px;">Create New Render</div>
+            <div style="font-size:9px;color:var(--ink3);margin-bottom:7px;">8 credits remaining · Guruji-validated placement</div>
+            <button class="btn-pu" style="font-size:11px;padding:8px 0;">Start New Render</button>
+          </div>
+        </div>
+        <div class="tab-b">
+          <div class="ti"><div class="ti-i">📊</div><div class="ti-l">Home</div></div>
+          <div class="ti on"><div class="ti-i">🖼</div><div class="ti-l" style="color:var(--pu);">Renders</div></div>
+          <div class="ti"><div class="ti-i">📋</div><div class="ti-l">Vaastu</div></div>
+          <div class="ti"><div class="ti-i">💰</div><div class="ti-l">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>D3 — Designer Renders History</h3>
+    <div class="ni"><h4 style="color:var(--pum);">Render cards</h4><p>Each render: icon (room type emoji), room name + project, Vaastu compliance notes, badges (Vaastu ✓ + White-label). Share button navigates to share sheet — sends to client under designer's brand.</p></div>
+    <div class="ni"><h4 style="color:var(--pum);">Guruji attribution in badge</h4><p>"Guruji-validated placement" in the new render CTA — subtly reinforces that these renders are backed by expert knowledge, not generic AI. Designers use this in client conversations.</p></div>
+    <div class="ni"><h4 style="color:var(--pum);">White-label badge</h4><p>Every render card shows "White-label" badge — reminder that the delivered render shows the designer's studio name, not VaastuVerse. This is a core selling point for designer partners.</p></div>
+  </div>
+</div>
+
+
+<!-- D4: DESIGNER EARNINGS -->
+<div class="sw" id="sw-d-earnings">
+  <div class="pc">
+    <div class="pc-lbl">🛋 Designer · Earnings</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:56</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--pu);padding:10px 13px;color:white;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">← Earnings &amp; Payouts</span>
+        </div>
+        <div class="body" style="overflow-y:auto;">
+          <!-- Hero -->
+          <div style="background:linear-gradient(135deg,var(--pu),#7B5CC6);padding:14px;text-align:center;color:white;">
+            <div style="font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px;">MAY 2026 · TOTAL EARNINGS</div>
+            <div style="font-family:'Fraunces',serif;font-size:30px;color:white;line-height:1;">₹24,500</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.55);margin-top:2px;">4 render projects · 2 referral conversions</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:10px;">
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:#C4B5FD;">₹20K</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Render margin</div></div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--tlm);">₹3,200</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Referral comms</div></div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--amm);">₹1,300</div><div style="font-size:7px;color:rgba(255,255,255,.5);">Quality bonus</div></div>
+            </div>
+          </div>
+          <div style="padding:10px 13px;">
+            <!-- Breakdown -->
+            <div style="font-size:9px;font-weight:700;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;">EARNINGS BREAKDOWN</div>
+            <div class="cd" style="margin-bottom:8px;overflow:hidden;padding:0;">
+              <div class="row" style="padding:8px 10px;"><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Render margin (4 projects × ₹5,000 avg)</div><div style="font-size:8px;color:var(--ink3);">Charged ₹6,499 to client · subscription cost ₹1,499</div></div><span style="font-size:11px;font-weight:700;color:var(--pu);">₹20,000</span></div>
+              <div class="row" style="padding:8px 10px;"><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Referral commissions</div><div style="font-size:8px;color:var(--ink3);">2 consultation bookings via your referral link × ₹1,600</div></div><span style="font-size:11px;font-weight:700;color:var(--tl);">₹3,200</span></div>
+              <div class="row" style="padding:8px 10px;border:none;"><div><div style="font-size:10px;font-weight:600;color:var(--ink);">Quality bonus</div><div style="font-size:8px;color:var(--ink3);">Client ratings 4.7★ avg · +10% on referral commissions</div></div><span style="font-size:11px;font-weight:700;color:var(--am);">₹1,300</span></div>
+            </div>
+            <!-- Customer rating -->
+            <div style="background:var(--pul);border:1px solid rgba(91,63,166,.2);border-radius:10px;padding:9px;margin-bottom:8px;">
+              <div style="font-size:9px;font-weight:700;color:var(--pu);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;">⭐ CLIENT RATINGS — QUALITY BONUS</div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                <div style="font-family:'Fraunces',serif;font-size:26px;color:var(--pu);">4.7</div>
+                <div><div style="display:flex;gap:2px;margin-bottom:2px;"><span style="color:var(--pu);font-size:11px;">★★★★★</span></div><div style="font-size:9px;color:var(--ink3);">Based on 18 client render reviews</div></div>
+              </div>
+              <div style="font-size:9px;color:var(--ink2);margin-bottom:5px;">Your quality bonus on referral commissions:</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:8px;text-align:center;">
+                <div style="background:var(--bd2);border-radius:5px;padding:4px;color:var(--ink3);">★3.5–4.0<br>No bonus</div>
+                <div style="background:rgba(91,63,166,.12);border-radius:5px;padding:4px;color:var(--pu);font-weight:700;">★4.0–4.5<br>+10% ← you</div>
+                <div style="background:var(--bd2);border-radius:5px;padding:4px;color:var(--ink3);">★4.5+<br>+20%</div>
+              </div>
+            </div>
+            <!-- How referral commissions work -->
+            <div style="background:var(--tll);border:1px solid rgba(10,123,106,.2);border-radius:9px;padding:9px;margin-bottom:8px;">
+              <div style="font-size:9px;font-weight:700;color:var(--tl);margin-bottom:3px;">💡 Your referral link earns commissions</div>
+              <div style="font-size:9px;color:var(--ink2);">When clients you refer book a consultation or buy a Vaastu report, you earn ₹1,600 per consultation referral. Higher client ratings = higher bonus %. Share your link from Renders tab.</div>
+            </div>
+            <!-- Payout -->
+            <div style="background:var(--pul);border:1.5px solid rgba(91,63,166,.3);border-radius:9px;padding:9px;display:flex;justify-content:space-between;align-items:center;">
+              <div><div style="font-family:'Fraunces',serif;font-size:18px;color:var(--pu);">₹22,000</div><div style="font-size:8px;color:var(--ink3);">Payout due 1st June</div></div>
+              <button class="btn-pu" style="width:auto;padding:7px 12px;font-size:10px;">Request Payout</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-b">
+          <div class="ti"><div class="ti-i">📊</div><div class="ti-l">Home</div></div>
+          <div class="ti"><div class="ti-i">🖼</div><div class="ti-l">Renders</div></div>
+          <div class="ti"><div class="ti-i">📋</div><div class="ti-l">Vaastu</div></div>
+          <div class="ti on"><div class="ti-i">💰</div><div class="ti-l" style="color:var(--pu);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>D4 — Designer Earnings Screen</h3>
+    <div class="ni"><h4 style="color:var(--pum);">Three income streams</h4>
+      <ul><li><strong>Render margin</strong> — designer charges client ₹5,000–8,000 per render project, pays VaastuVerse ₹1,499/mo subscription. Gross margin per project typically ₹3,500–6,500.</li><li><strong>Referral commissions</strong> — ₹1,600 per consultation booking the designer refers via their unique link</li><li><strong>Quality bonus</strong> — % uplift on referral commissions based on verified client render ratings</li></ul></div>
+    <div class="ni"><h4 style="color:var(--pum);">Rating drives bonus tier (different from Guruji)</h4><p>Designer bonus applies to referral commissions (not render margin): 4.0–4.5★ = +10% · 4.5+★ = +20%. Rating is based on client reviews of the renders delivered. This incentivises designers to deliver quality renders, not just volume — keeping the VaastuVerse brand standard high.</p></div>
+    <div class="ni"><h4 style="color:var(--tl);">Referral link = passive income</h4><p>Teal info card explains the referral mechanism simply. Designers naturally mention VaastuVerse to clients who ask about Vaastu — they now have financial incentive to formalise this with their link.</p></div>
+  </div>
+</div>
+
+<!-- ════════════════ CHANNEL PARTNER SCREENS ════════════════ -->
+
+<!-- C1: CHANNEL HOME -->
+<div class="sw" id="sw-c-home">
+  <div class="pc">
+    <div class="pc-lbl">🤝 Channel Partner · Home</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:41</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div class="body" style="overflow-y:auto;">
+          <div style="background:linear-gradient(135deg,var(--tl),#0A6558);padding:14px;color:white;">
+            <div style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:2px;">RAHUL REALTY · CHANNEL PARTNER</div>
+            <div style="font-family:'Fraunces',serif;font-size:16px;margin-bottom:10px;">Good morning, Rahul</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:white;">14</div><div style="font-size:7px;color:rgba(255,255,255,.6);">Vaastu credits</div></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:#C4B5FD;">4</div><div style="font-size:7px;color:rgba(255,255,255,.6);">Interior credits</div></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:7px;padding:6px;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:14px;color:var(--amm);">₹12.7K</div><div style="font-size:7px;color:rgba(255,255,255,.6);">This month</div></div>
+            </div>
+          </div>
+          <div class="pad">
+            <!-- Both credit bars -->
+            <div class="cd" style="margin-bottom:6px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;font-weight:600;color:var(--tl);">📋 Vaastu Credits</span><span style="font-size:10px;font-weight:700;color:var(--tl);">14 left</span></div>
+              <div class="progbar"><div class="progfill" style="width:70%;background:linear-gradient(90deg,var(--tl),var(--tlm));"></div></div>
+              <div style="font-size:8px;color:var(--ink3);">₹249/credit wholesale · <span style="color:var(--tl);font-weight:600;">Top up</span></div>
+            </div>
+            <div class="cd" style="margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span style="font-size:10px;font-weight:600;color:var(--pu);">🖼 Interior Credits</span><span style="font-size:10px;font-weight:700;color:var(--pu);">4 left</span></div>
+              <div class="progbar"><div class="progfill" style="width:40%;background:linear-gradient(90deg,var(--pu),var(--pum));"></div></div>
+              <div style="font-size:8px;color:var(--ink3);">₹799/credit wholesale · <span style="color:var(--pu);font-weight:600;">Top up</span></div>
+            </div>
+            <!-- Bundle highlight -->
+            <div style="background:var(--aml);border:1.5px solid rgba(212,134,10,.3);border-radius:10px;padding:9px;margin-bottom:8px;">
+              <div style="font-size:9px;font-weight:700;color:var(--am);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;">📦 BUNDLE OFFER</div>
+              <div style="font-size:10px;color:var(--ink2);margin-bottom:5px;">1 Vaastu report + 2 renders = offer to clients at ₹2,499. Your cost: ₹1,847. Margin: ₹652 per bundle.</div>
+              <button style="background:var(--am);color:white;border:none;border-radius:7px;padding:6px 0;width:100%;font-size:10px;font-weight:700;">Share Bundle Link</button>
+            </div>
+            <!-- Quick actions -->
+            <div class="s3" style="margin-bottom:4px;font-size:10px;">Quick Actions</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <button style="background:var(--tll);border:1px solid rgba(10,123,106,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--tl);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">📋</span>Send Vaastu</button>
+              <button style="background:var(--pul);border:1px solid rgba(91,63,166,.2);border-radius:9px;padding:9px 7px;font-size:10px;font-weight:700;color:var(--pu);display:flex;flex-direction:column;align-items:center;gap:3px;"><span style="font-size:16px;">🖼</span>Send Render</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-b">
+          <div class="ti on"><div class="ti-i">📊</div><div class="ti-l" style="color:var(--tl);">Home</div></div>
+          <div class="ti"><div class="ti-i">🛒</div><div class="ti-l">Buy Credits</div></div>
+          <div class="ti"><div class="ti-i">📦</div><div class="ti-l">Bundle</div></div>
+          <div class="ti"><div class="ti-i">💰</div><div class="ti-l">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>C1 — Channel Partner Home</h3>
+    <div class="ni"><h4 style="color:var(--tlm);">Both credit types on home screen</h4><p>Vaastu credits (teal) and Interior credits (purple) both shown prominently. This is the key differentiator from Designers — Channel Partners hold BOTH types and can direct either to clients.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">Bundle offer = amber highlight</h4><p>The bundle offer card uses amber — the highest-urgency colour in the palette — because it's the highest-margin offer. Always visible above quick actions. Single-tap "Share Bundle Link" goes to WhatsApp.</p></div>
+    <div class="ni"><h4 style="color:var(--tlm);">Tab bar = 4 tabs, no Guruji</h4><p>Home, Buy Credits (both types on one screen), Bundle, Earnings. No Guruji/Conflict tabs — Channel Partners don't contribute knowledge. Clean, commerce-focused.</p></div>
+  </div>
+</div>
+
+<!-- C2: BUY CREDITS -->
+<div class="sw" id="sw-c-credits">
+  <div class="pc">
+    <div class="pc-lbl">🤝 Channel Partner · Buy Credits</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:43</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--tl);padding:10px 13px;color:white;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">← Buy Credits</span>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+          <!-- Vaastu credits -->
+          <div style="margin-bottom:12px;">
+            <div style="font-size:10px;font-weight:700;color:var(--tl);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">📋 Vaastu Report Credits</div>
+            <div style="font-size:9px;color:var(--ink3);margin-bottom:7px;">Buy wholesale, offer to clients at ₹499 retail (₹250 margin each).</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">10 credits</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹2,990</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹299/each</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;border-color:var(--tl);">
+                <div style="font-size:8px;color:var(--tl);font-weight:600;">25 credits</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹6,975</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹279/each</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">50 credits</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--tl);">₹12,450</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹249/each</div>
+                <button class="btn-tl" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+            </div>
+          </div>
+          <div class="div2"></div>
+          <!-- Interior credits -->
+          <div style="margin-bottom:12px;">
+            <div style="font-size:10px;font-weight:700;color:var(--pu);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">🖼 Interior Render Credits</div>
+            <div style="font-size:9px;color:var(--ink3);margin-bottom:7px;">Buy wholesale, offer at ₹1,999 retail (₹1,200 margin each).</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">5 renders</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--pu);">₹4,245</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹849/each</div>
+                <button class="btn-pu" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;border-color:var(--pu);">
+                <div style="font-size:8px;color:var(--pu);font-weight:600;">12 renders</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--pu);">₹9,588</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹799/each</div>
+                <button class="btn-pu" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+              <div class="cd" style="text-align:center;padding:7px;">
+                <div style="font-size:8px;color:var(--mt);">25 renders</div>
+                <div style="font-family:'Fraunces',serif;font-size:16px;color:var(--pu);">₹18,750</div>
+                <div style="font-size:7px;color:var(--mt);margin-bottom:5px;">₹750/each</div>
+                <button class="btn-pu" style="padding:5px 0;font-size:9px;">Buy</button>
+              </div>
+            </div>
+          </div>
+          <!-- Bundle shortcut -->
+          <div style="background:var(--aml);border:1px solid rgba(212,134,10,.25);border-radius:9px;padding:9px;text-align:center;">
+            <div style="font-size:10px;font-weight:700;color:var(--am);margin-bottom:3px;">📦 Buy Bundle Pack (save more)</div>
+            <div style="font-size:9px;color:var(--ink3);margin-bottom:6px;">1 Vaastu + 2 renders at ₹1,847 (vs ₹2,497 separately)</div>
+            <button style="background:var(--am);color:white;border:none;border-radius:7px;padding:7px 0;width:100%;font-size:10px;font-weight:700;">Buy Bundle Packs</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>C2 — Channel Partner Buy Credits</h3>
+    <div class="ni"><h4 style="color:var(--tlm);">Both credit types on one screen</h4><p>Channel Partners are the only partner type who see both Vaastu (teal) and Interior (purple) credit packs on the same Buy Credits screen, separated by a visual divider. Designers only see renders here; Channel Partners see everything.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">Margin shown per credit</h4><p>Sub-label shows the per-credit cost, but intro text shows "offer at ₹X retail (₹Y margin each)". Channel Partners are commerce-minded — they need to know margin, not just cost.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">Bundle shortcut at bottom</h4><p>Amber bundle pack below both credit sections. Always the last thing they see — reinforces the bundle offer as the highest-value purchase. Single-tap buy.</p></div>
+  </div>
+</div>
+
+<!-- C3: BUNDLE OFFER -->
+<div class="sw" id="sw-c-bundle">
+  <div class="pc">
+    <div class="pc-lbl">🤝 Channel · Bundle Offer</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:44</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--am);padding:10px 13px;color:white;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">← Bundle Offer</span>
+        </div>
+        <div class="body" style="overflow-y:auto;padding:10px 13px;">
+          <!-- Bundle explain -->
+          <div style="background:var(--aml);border:1.5px solid rgba(212,134,10,.3);border-radius:12px;padding:12px;margin-bottom:10px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--am);margin-bottom:5px;">EXCLUSIVE CHANNEL PARTNER BUNDLE</div>
+            <div style="font-family:'Fraunces',serif;font-size:20px;color:var(--ink);margin-bottom:3px;">Vaastu + Design Preview</div>
+            <div style="font-size:11px;color:var(--ink2);margin-bottom:10px;">1 Guruji Vaastu Report + 2 Vaastu-correct Room Renders</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;">
+              <div style="text-align:center;"><div style="font-size:9px;color:var(--mt);">Your cost</div><div style="font-family:'Fraunces',serif;font-size:17px;color:var(--am);">₹1,847</div></div>
+              <div style="text-align:center;"><div style="font-size:9px;color:var(--mt);">Sell at</div><div style="font-family:'Fraunces',serif;font-size:17px;color:var(--tl);">₹2,499</div></div>
+              <div style="text-align:center;"><div style="font-size:9px;color:var(--mt);">Margin</div><div style="font-family:'Fraunces',serif;font-size:17px;color:var(--pu);">₹652</div></div>
+            </div>
+            <button style="background:var(--am);color:white;border:none;border-radius:9px;padding:9px 0;width:100%;font-size:12px;font-weight:700;">📤 Share Bundle Link via WhatsApp</button>
+          </div>
+          <!-- How it works -->
+          <div class="s3" style="font-size:10px;margin-bottom:5px;">How the bundle works for your client</div>
+          <div class="cd" style="margin-bottom:6px;display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--tll);color:var(--tl);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">1</div>
+            <div><div class="s3" style="font-size:10px;color:var(--tl);">Vaastu Report</div><div style="font-size:9px;color:var(--ink3);">Your client uploads floor plan. Guruji-validated zone analysis in 4 steps.</div></div>
+          </div>
+          <div class="cd" style="margin-bottom:6px;display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--pul);color:var(--pu);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">2</div>
+            <div><div class="s3" style="font-size:10px;color:var(--pu);">2 Room Renders</div><div style="font-size:9px;color:var(--ink3);">AI renders of 2 rooms with Vaastu-correct furniture, colours, and placement.</div></div>
+          </div>
+          <div class="cd" style="display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:22px;height:22px;border-radius:50%;background:var(--aml);color:var(--am);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">✓</div>
+            <div><div class="s3" style="font-size:10px;color:var(--am);">Client gets full picture</div><div style="font-size:9px;color:var(--ink3);">Vaastu compliance AND a visual of how the flat will look — unique in BLR market.</div></div>
+          </div>
+          <!-- Credits deducted -->
+          <div style="background:rgba(0,0,0,.04);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:9px;color:var(--mt);">1 bundle = 1 Vaastu credit + 2 Interior credits deducted · Remaining: 14V / 4I</div>
+        </div>
+        <div class="tab-b">
+          <div class="ti"><div class="ti-i">📊</div><div class="ti-l">Home</div></div>
+          <div class="ti"><div class="ti-i">🛒</div><div class="ti-l">Buy</div></div>
+          <div class="ti on"><div class="ti-i">📦</div><div class="ti-l" style="color:var(--am);">Bundle</div></div>
+          <div class="ti"><div class="ti-i">💰</div><div class="ti-l">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>C3 — Bundle Offer Screen</h3>
+    <div class="ni"><h4 style="color:var(--amm);">Three-number summary</h4><p>Your cost / Sell at / Margin shown in three equal columns. Channel Partners are brokers — margin is the primary signal. Make it impossible to miss.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">WhatsApp CTA is primary</h4><p>"Share Bundle Link via WhatsApp" is the primary action. Generates a WhatsApp intent with a pre-filled message and the partner's unique bundle link. Single tap to share.</p></div>
+    <div class="ni"><h4>How it works — client journey</h4><p>Step-by-step numbered cards (1 Vaastu report → 2 renders → full picture). Colour-coded: teal for Vaastu, purple for renders, amber for outcome. Helps Channel Partners explain the bundle to clients in a conversation.</p></div>
+    <div class="ni"><h4>Credit deduction footnote</h4><p>Grey footnote at bottom: "1 bundle = 1 Vaastu credit + 2 Interior credits deducted." Transparent — partners always know exactly what a bundle costs them in credits.</div>
+  </div>
+</div>
+
+<!-- C4: EARNINGS -->
+<div class="sw" id="sw-c-earnings">
+  <div class="pc">
+    <div class="pc-lbl">🤝 Channel · Earnings</div>
+    <div class="phone">
+      <div class="notch"><div class="nc2"></div></div>
+      <div class="scr" style="background:var(--sf2);">
+        <div class="sb"><span class="sb-t" style="color:var(--ink);">9:45</span><span class="sb-i" style="color:var(--ink3);">●●●● 🔋</span></div>
+        <div style="background:var(--tl);padding:10px 13px;color:white;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;">← Earnings &amp; Payouts</span>
+        </div>
+        <div class="body" style="overflow-y:auto;">
+          <!-- Hero -->
+          <div style="background:linear-gradient(135deg,#0A5A4E,var(--tl));padding:14px;text-align:center;color:white;">
+            <div style="font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:2px;">MAY 2026 · TOTAL EARNINGS</div>
+            <div style="font-family:'Fraunces',serif;font-size:30px;color:white;">₹12,768</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:10px;">
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;">
+                <div style="font-family:'Fraunces',serif;font-size:14px;color:white;">18</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.5);">Vaastu credits used</div>
+              </div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;">
+                <div style="font-family:'Fraunces',serif;font-size:14px;color:#C4B5FD;">9</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.5);">Bundles sold</div>
+              </div>
+              <div style="background:rgba(255,255,255,.1);border-radius:7px;padding:6px;text-align:center;">
+                <div style="font-family:'Fraunces',serif;font-size:14px;color:var(--amm);">6</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.5);">Referral converts</div>
+              </div>
+            </div>
+          </div>
+          <div class="pad">
+            <!-- Breakdown -->
+            <div class="s3" style="font-size:10px;margin-bottom:5px;">Earnings Breakdown</div>
+            <div class="cd" style="margin-bottom:6px;">
+              <div class="row"><span style="font-size:10px;color:var(--ink);">Vaastu credit margins (18 × ₹250)</span><span style="font-size:10px;font-weight:700;color:var(--tl);">₹4,500</span></div>
+              <div class="row"><span style="font-size:10px;color:var(--ink);">Bundle margins (9 × ₹652)</span><span style="font-size:10px;font-weight:700;color:var(--am);">₹5,868</span></div>
+              <div class="row" style="border:none;"><span style="font-size:10px;color:var(--ink);">Referral commissions (6 × ₹400)</span><span style="font-size:10px;font-weight:700;color:var(--pu);">₹2,400</span></div>
+            </div>
+            <!-- Payout -->
+            <div style="background:var(--aml);border:1px solid rgba(212,134,10,.25);border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
+              <div><div style="font-family:'Fraunces',serif;font-size:20px;color:var(--am);">₹10,500</div><div style="font-size:9px;color:var(--am);opacity:.8;">Payout due 1st June</div></div>
+              <button style="background:var(--am);color:white;border:none;border-radius:8px;padding:8px 12px;font-size:10px;font-weight:700;">Request Payout</button>
+            </div>
+            <!-- Referral link -->
+            <div class="s3" style="font-size:10px;margin:8px 0 4px;">Referral Link</div>
+            <div style="background:white;border:1px dashed rgba(10,123,106,.3);border-radius:7px;padding:7px 9px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:9px;color:var(--tl);">vaastuverse.in/r/rahul-s</span>
+              <button style="background:var(--tl);color:white;border:none;border-radius:5px;padding:3px 9px;font-size:9px;font-weight:700;">Copy</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-b">
+          <div class="ti"><div class="ti-i">📊</div><div class="ti-l">Home</div></div>
+          <div class="ti"><div class="ti-i">🛒</div><div class="ti-l">Buy</div></div>
+          <div class="ti"><div class="ti-i">📦</div><div class="ti-l">Bundle</div></div>
+          <div class="ti on"><div class="ti-i">💰</div><div class="ti-l" style="color:var(--am);">Earnings</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nc">
+    <h3>C4 — Channel Partner Earnings</h3>
+    <div class="ni"><h4 style="color:var(--tlm);">Three earning streams</h4><p>Vaastu margins (teal), Bundle margins (amber), Referral commissions (purple) — each with its own colour and number. Total at top. This breakdown lets partners understand which activity drives the most income.</p></div>
+    <div class="ni"><h4 style="color:var(--amm);">Amber payout card</h4><p>Amber = money waiting. "Payout due 1st June" with the pending amount. "Request Payout" button — Phase 1: triggers email to admin. Phase 2: direct Razorpay Payout to registered bank.</p></div>
+    <div class="ni"><h4>Referral link always visible</h4><p>Referral link shown below payout card. Dashed jade border (shareable signal). Copy button with toast. Partners should be able to share their link from anywhere in the app — earnings screen is the natural place to see its value.</p></div>
+  </div>
+</div>
+
+</div><!-- end stage -->
+
+<script>
+function show(id){
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.snb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sw-'+id).classList.add('on');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
