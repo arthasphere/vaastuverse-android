@@ -1,5 +1,8 @@
 # VaastuVerse Android (Jetpack Compose)
 
+**GitHub:** https://github.com/arthasphere/vaastuverse-android  
+**iOS sibling:** https://github.com/arthasphere/vaastuverse-ios
+
 Kotlin / **Jetpack Compose** scaffold mirroring the **iOS** app: customer + partner shells, shared **theme** tokens, **`UserSessionViewModel`**, and **`ApiConfig`** for the **api-gateway** on your desktop (**Docker**).
 
 ## Quick test (emulator on the same Windows PC as Docker)
