@@ -33,6 +33,7 @@ object VvColors {
     val DarkBg = Color(0xFF0A0A0C)
     val DarkElevated = Color(0xFF1A1A24)
     val DarkGold = Color(0xFFD4A830)
+    val Red = Color(0xFF8B2020)
 }
 
 private val LightScheme = lightColorScheme(

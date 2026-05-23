@@ -13,7 +13,7 @@ class UserSessionViewModel : ViewModel() {
     var organizationName by mutableStateOf<String?>(null)
         private set
 
-    var leadExpertDisplayName by mutableStateOf("Shruti Gupta")
+    var leadExpertDisplayName by mutableStateOf("Guruji")
         private set
 
     val givenName: String
@@ -57,7 +57,7 @@ class UserSessionViewModel : ViewModel() {
 
     fun applyPartnerDevProfile(persona: PartnerPersona) {
         when (persona) {
-            PartnerPersona.Guruji -> applyProfile("Shruti Gupta")
+            PartnerPersona.Guruji -> applyProfile("Guruji")
             PartnerPersona.Designer -> applyProfile("Kavita", organizationName = "Kavita Interiors")
             PartnerPersona.Channel -> applyProfile("Rahul", organizationName = "Rahul Realty")
         }
@@ -66,5 +66,14 @@ class UserSessionViewModel : ViewModel() {
     private fun givenNameFrom(fullName: String): String {
         val t = fullName.trim()
         return t.split(" ").firstOrNull() ?: t
+    }
+
+    fun applyCustomerProfile(displayName: String, organizationName: String? = null) {
+        applyProfile(displayName, organizationName)
+    }
+
+    fun applyPartnerProfile(businessName: String?, partnerDisplayName: String? = null) {
+        val name = partnerDisplayName?.trim().takeUnless { it.isNullOrEmpty() } ?: displayName
+        applyProfile(name, organizationName = businessName)
     }
 }

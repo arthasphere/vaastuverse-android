@@ -1,2 +1,14 @@
-# Add project-specific machine properties (SDK path). Do not commit secrets.
+# Machine-specific (SDK path). Do not commit secrets.
 local.properties
+
+# Gradle / Android Studio
+.gradle/
+build/
+**/build/
+*.iml
+.idea/
+.DS_Store
+captures/
+*.apk
+*.ap_
+*.aab

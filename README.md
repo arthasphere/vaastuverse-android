@@ -5,6 +5,18 @@
 
 Kotlin / **Jetpack Compose** scaffold mirroring the **iOS** app: customer + partner shells, shared **theme** tokens, **`UserSessionViewModel`**, and **`ApiConfig`** for the **api-gateway** on your desktop (**Docker**).
 
+## App flow (auth → onboarding → experience)
+
+On launch you go through:
+
+1. **Welcome** — OTP, register, or email login  
+2. **Customer profile** — name & city (saved to `user-service`)  
+3. **Home hub** — open customer app, apply as partner, or view application status  
+4. **Partner apply** — choose role (`DESIGNER`, `CHANNEL_PARTNER`, `GURUJI_T1`…); status **PENDING** until a Guruji approves via API/admin  
+5. **Experience** — customer / partner UI (only after the steps above)
+
+Dev OTP: after **Send OTP**, read the 6-digit code in Docker: `docker logs auth-service 2>&1 | Select-String OTP`
+
 ## Quick test (emulator on the same Windows PC as Docker)
 
 1. Start the stack from **`vaastuverse-local`**: `docker compose up -d` (gateway on host **port 8080**).

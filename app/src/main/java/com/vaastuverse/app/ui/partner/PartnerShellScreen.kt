@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vaastuverse.app.data.PartnerDashboardStats
 import com.vaastuverse.app.data.UserSessionViewModel
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
@@ -58,32 +59,40 @@ import com.vaastuverse.app.ui.customer.SimplePlaceholderScreen
 enum class PartnerPersona { Guruji, Designer, Channel }
 
 @Composable
-fun PartnerShellScreen(session: UserSessionViewModel) {
-    var persona by remember { mutableStateOf(PartnerPersona.Guruji) }
+fun PartnerShellScreen(
+    session: UserSessionViewModel,
+    initialPersona: PartnerPersona = PartnerPersona.Guruji,
+    stats: PartnerDashboardStats = PartnerDashboardStats(),
+    lockToOnboardedPersona: Boolean = true,
+) {
+    var persona by remember(initialPersona) { mutableStateOf(initialPersona) }
+    val activePersona = if (lockToOnboardedPersona) initialPersona else persona
 
-    LaunchedEffect(persona) {
-        session.applyPartnerDevProfile(persona)
+    LaunchedEffect(activePersona) {
+        session.applyPartnerDevProfile(activePersona)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        SingleChoiceSegmentedButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-        ) {
-            PartnerPersona.entries.forEachIndexed { index, p ->
-                SegmentedButton(
-                    selected = persona == p,
-                    onClick = { persona = p },
-                    shape = SegmentedButtonDefaults.itemShape(index, PartnerPersona.entries.size),
-                ) {
-                    Text(p.name)
+        if (!lockToOnboardedPersona) {
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            ) {
+                PartnerPersona.entries.forEachIndexed { index, p ->
+                    SegmentedButton(
+                        selected = persona == p,
+                        onClick = { persona = p },
+                        shape = SegmentedButtonDefaults.itemShape(index, PartnerPersona.entries.size),
+                    ) {
+                        Text(p.name)
+                    }
                 }
             }
         }
 
-        when (persona) {
-            PartnerPersona.Guruji -> GurujiTabShell(session)
+        when (activePersona) {
+            PartnerPersona.Guruji -> GurujiTabShell(session, stats)
             PartnerPersona.Designer -> DesignerTabShell(session)
             PartnerPersona.Channel -> ChannelTabShell(session)
         }
@@ -91,13 +100,17 @@ fun PartnerShellScreen(session: UserSessionViewModel) {
 }
 
 @Composable
-private fun GurujiTabShell(session: UserSessionViewModel) {
+private fun GurujiTabShell(session: UserSessionViewModel, stats: PartnerDashboardStats) {
     var tab by remember { mutableIntStateOf(0) }
     val gold = VvColors.DarkGold
     val tabs = listOf(
-        Tab("Dashboard", Icons.Default.BarChart) { GurujiDashboard(session, gold) },
-        Tab("Teach", Icons.Default.Chat) { PartnerPlaceholder("Teach", "Q&A sessions", dark = true) },
-        Tab("Conflicts", Icons.Default.Bolt) { PartnerPlaceholder("Conflicts", "T1 conflict queue", dark = true) },
+        Tab("Dashboard", Icons.Default.BarChart) { GurujiDashboard(session, stats, gold) },
+        Tab("Teach", Icons.Default.Chat) {
+            PartnerPlaceholder("Teach", "${stats.knowledgeEntries} knowledge entries", dark = true)
+        },
+        Tab("Conflicts", Icons.Default.Bolt) {
+            PartnerPlaceholder("Conflicts", "${stats.openConflicts} open conflicts", dark = true)
+        },
         Tab("Earnings", Icons.Default.AttachMoney) { PartnerPlaceholder("Earnings", "Revenue share", dark = true) },
     )
     PartnerScaffold(tabs, tab, { tab = it }, containerColor = VvColors.DarkBg, selectedColor = gold)
@@ -164,7 +177,7 @@ private fun PartnerScaffold(
 }
 
 @Composable
-private fun GurujiDashboard(session: UserSessionViewModel, gold: Color) {
+private fun GurujiDashboard(session: UserSessionViewModel, stats: PartnerDashboardStats, gold: Color) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -201,15 +214,30 @@ private fun GurujiDashboard(session: UserSessionViewModel, gold: Color) {
 
         Text("YOUR KNOWLEDGE IMPACT", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.3f))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            StatCell("847", "Knowledge entries", gold)
-            StatCell("2,341", "Reports influenced", Color(0xFF6CC4B4))
-            StatCell("₹18.2K", "Earned this month", Color(0xFFF5C76A))
+            StatCell(stats.knowledgeEntries.toString(), "Knowledge entries", gold)
+            StatCell(stats.reportsInfluenced.toString(), "Reports influenced", Color(0xFF6CC4B4))
+            StatCell(stats.formattedMonthlyEarnings(), "Earned this month", Color(0xFFF5C76A))
         }
 
         Text("TODAY'S SESSIONS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.5f))
-        SessionCard("💬 Q&A Session", "8 questions waiting", gold, "Start")
-        SessionCard("⚡ Conflict Queue", "2 open conflicts", Color(0xFFFCA5A5), "2 open")
-        SessionCard("📋 Report Reviews", "4 reports awaiting review", Color(0xFF6CC4B4), "Review")
+        SessionCard(
+            "💬 Consultations",
+            "${stats.consultationBookings} bookings on your calendar",
+            gold,
+            if (stats.consultationBookings > 0) "View" else "—",
+        )
+        SessionCard(
+            "⚡ Conflict Queue",
+            "${stats.openConflicts} open conflicts",
+            Color(0xFFFCA5A5),
+            if (stats.openConflicts > 0) "${stats.openConflicts} open" else "Clear",
+        )
+        SessionCard(
+            "📋 Report Reviews",
+            "${stats.reportsPendingReview} reports awaiting review",
+            Color(0xFF6CC4B4),
+            if (stats.reportsPendingReview > 0) "Review" else "—",
+        )
     }
 }
 
