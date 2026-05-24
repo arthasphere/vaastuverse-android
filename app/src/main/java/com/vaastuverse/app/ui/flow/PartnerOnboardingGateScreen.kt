@@ -53,6 +53,7 @@ fun PartnerOnboardingGateScreen(state: AppUiState, coordinator: AppCoordinatorVi
                         actions = AppMenuActions(
                             experienceMode = ExperienceMode.Partner,
                             onEditProfile = {},
+                            onOpenSettings = {},
                             onManageProperties = {},
                             onSwitchToCustomer = { coordinator.chooseCustomer() },
                             onSwitchToPartner = {},

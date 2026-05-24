@@ -17,6 +17,14 @@ enum class PartnerTrack(val label: String, val emoji: String) {
             else -> null
         }
 
+        /** Display label for onboarded Guruji tier roles (e.g. GURUJI_T2). */
+        fun gurujiTierLabel(role: String): String? = when (role) {
+            "GURUJI_T1" -> "Tier 1 · Param Guruji"
+            "GURUJI_T2" -> "Tier 2 · Guruji"
+            "GURUJI_T3" -> "Tier 3 · Shishya"
+            else -> null
+        }
+
         fun fromSession(session: StoredSession?): PartnerTrack? {
             val role = session?.partnerRoles?.firstOrNull()
                 ?: session?.roles?.firstOrNull { it != "CUSTOMER" }

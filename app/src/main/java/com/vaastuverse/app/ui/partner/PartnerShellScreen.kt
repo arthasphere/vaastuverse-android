@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -12,24 +13,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.AttachMoney
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -50,29 +45,80 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vaastuverse.app.data.AppCoordinatorViewModel
+import com.vaastuverse.app.data.AppUiState
 import com.vaastuverse.app.data.PartnerDashboardStats
 import com.vaastuverse.app.data.UserSessionViewModel
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
+import com.vaastuverse.app.ui.customer.CustomerMiddleScrollSection
+import com.vaastuverse.app.ui.customer.CustomerMiddleThemes
 import com.vaastuverse.app.ui.customer.SimplePlaceholderScreen
+import com.vaastuverse.app.ui.shared.CommunicationSettingsScreen
+import com.vaastuverse.app.ui.shared.UserAccountProfileScreen
+import com.vaastuverse.app.ui.shell.AppMenuActions
+import com.vaastuverse.app.ui.shell.PartnerNavController
 
 enum class PartnerPersona { Guruji, Designer, Channel }
 
+private enum class PartnerOverlay {
+    None,
+    Profile,
+    Settings,
+}
+
 @Composable
 fun PartnerShellScreen(
+    modifier: Modifier = Modifier,
+    state: AppUiState,
+    coordinator: AppCoordinatorViewModel,
     session: UserSessionViewModel,
+    menuActions: AppMenuActions,
+    partnerNav: PartnerNavController,
     initialPersona: PartnerPersona = PartnerPersona.Guruji,
     stats: PartnerDashboardStats = PartnerDashboardStats(),
     lockToOnboardedPersona: Boolean = true,
 ) {
     var persona by remember(initialPersona) { mutableStateOf(initialPersona) }
+    var overlay by remember { mutableStateOf(PartnerOverlay.None) }
     val activePersona = if (lockToOnboardedPersona) initialPersona else persona
 
     LaunchedEffect(activePersona) {
-        session.applyPartnerDevProfile(activePersona)
+        if (!lockToOnboardedPersona) {
+            session.applyPartnerDevProfile(activePersona)
+        }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    LaunchedEffect(partnerNav.openProfileRequest) {
+        if (partnerNav.openProfileRequest > 0) {
+            coordinator.refreshAccount()
+            overlay = PartnerOverlay.Profile
+        }
+    }
+
+    LaunchedEffect(partnerNav.openSettingsRequest) {
+        if (partnerNav.openSettingsRequest > 0) {
+            overlay = PartnerOverlay.Settings
+        }
+    }
+
+    val topBarMode: PartnerTopBarMode = when (overlay) {
+        PartnerOverlay.Profile -> PartnerTopBarMode.SubPage(
+            title = "My profile",
+            onBack = { overlay = PartnerOverlay.None },
+        )
+        PartnerOverlay.Settings -> PartnerTopBarMode.SubPage(
+            title = "Settings",
+            onBack = { overlay = PartnerOverlay.None },
+        )
+        PartnerOverlay.None -> PartnerTopBarMode.Home
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(VvColors.Cream),
+    ) {
         if (!lockToOnboardedPersona) {
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier
@@ -91,10 +137,42 @@ fun PartnerShellScreen(
             }
         }
 
-        when (activePersona) {
-            PartnerPersona.Guruji -> GurujiTabShell(session, stats)
-            PartnerPersona.Designer -> DesignerTabShell(session)
-            PartnerPersona.Channel -> ChannelTabShell(session)
+        PartnerTopBar(session = session, menuActions = menuActions, mode = topBarMode)
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) {
+            when (overlay) {
+                PartnerOverlay.Profile -> {
+                    CustomerMiddleScrollSection {
+                        UserAccountProfileScreen(
+                            account = state.account,
+                            profile = state.customerProfile,
+                            isLoading = state.isLoading,
+                            onSave = { name, city ->
+                                coordinator.saveCustomerProfileInExperience(name, city)
+                                coordinator.refreshAccount()
+                                overlay = PartnerOverlay.None
+                            },
+                        )
+                    }
+                }
+                PartnerOverlay.Settings -> {
+                    CustomerMiddleScrollSection {
+                        CommunicationSettingsScreen(
+                            preferences = state.communicationPreferences,
+                            onChange = coordinator::updateCommunicationPreferences,
+                        )
+                    }
+                }
+                PartnerOverlay.None -> when (activePersona) {
+                    PartnerPersona.Guruji -> GurujiTabShell(session, stats)
+                    PartnerPersona.Designer -> DesignerTabShell(session)
+                    PartnerPersona.Channel -> ChannelTabShell(session)
+                }
+            }
         }
     }
 }
@@ -102,150 +180,183 @@ fun PartnerShellScreen(
 @Composable
 private fun GurujiTabShell(session: UserSessionViewModel, stats: PartnerDashboardStats) {
     var tab by remember { mutableIntStateOf(0) }
-    val gold = VvColors.DarkGold
     val tabs = listOf(
-        Tab("Dashboard", Icons.Default.BarChart) { GurujiDashboard(session, stats, gold) },
-        Tab("Teach", Icons.Default.Chat) {
-            PartnerPlaceholder("Teach", "${stats.knowledgeEntries} knowledge entries", dark = true)
-        },
-        Tab("Conflicts", Icons.Default.Bolt) {
-            PartnerPlaceholder("Conflicts", "${stats.openConflicts} open conflicts", dark = true)
-        },
-        Tab("Earnings", Icons.Default.AttachMoney) { PartnerPlaceholder("Earnings", "Revenue share", dark = true) },
+        PartnerTabItem("Dashboard", Icons.Default.BarChart),
+        PartnerTabItem("Teach", Icons.Default.Chat),
+        PartnerTabItem("Conflicts", Icons.Default.Bolt),
+        PartnerTabItem("Earnings", Icons.Default.AttachMoney),
     )
-    PartnerScaffold(tabs, tab, { tab = it }, containerColor = VvColors.DarkBg, selectedColor = gold)
+    PartnerTabContent(
+        tabs = tabs,
+        selected = tab,
+        onSelect = { tab = it },
+        accentColor = VvColors.Saffron,
+    ) {
+        when (tab) {
+            0 -> GurujiDashboard(stats)
+            1 -> PartnerPlaceholder("Teach", "${stats.knowledgeEntries} knowledge entries")
+            2 -> PartnerPlaceholder("Conflicts", "${stats.openConflicts} open conflicts")
+            else -> PartnerPlaceholder("Earnings", "Revenue share")
+        }
+    }
 }
 
 @Composable
 private fun DesignerTabShell(session: UserSessionViewModel) {
     var tab by remember { mutableIntStateOf(0) }
     val tabs = listOf(
-        Tab("Home", Icons.Default.Home) { DesignerHome(session) },
-        Tab("Renders", Icons.Default.Photo) { PartnerPlaceholder("Renders", "render-service") },
-        Tab("Vaastu", Icons.Default.Description) { PartnerPlaceholder("Vaastu", "report-service") },
-        Tab("Earnings", Icons.Default.AttachMoney) { PartnerPlaceholder("Earnings", "Margins + referrals") },
+        PartnerTabItem("Home", Icons.Default.Home),
+        PartnerTabItem("Renders", Icons.Default.Photo),
+        PartnerTabItem("Vaastu", Icons.Default.Description),
+        PartnerTabItem("Earnings", Icons.Default.AttachMoney),
     )
-    PartnerScaffold(tabs, tab, { tab = it }, containerColor = VvColors.PartnerBg, selectedColor = VvColors.Purple)
+    PartnerTabContent(
+        tabs = tabs,
+        selected = tab,
+        onSelect = { tab = it },
+        accentColor = VvColors.Jade,
+    ) {
+        when (tab) {
+            0 -> DesignerHome(session)
+            1 -> PartnerPlaceholder("Renders", "render-service")
+            2 -> PartnerPlaceholder("Vaastu", "report-service")
+            else -> PartnerPlaceholder("Earnings", "Margins + referrals")
+        }
+    }
 }
 
 @Composable
 private fun ChannelTabShell(session: UserSessionViewModel) {
     var tab by remember { mutableIntStateOf(0) }
     val tabs = listOf(
-        Tab("Home", Icons.Default.Home) { ChannelHome(session) },
-        Tab("Buy", Icons.Default.ShoppingCart) { PartnerPlaceholder("Buy Credits", "Wholesale packs") },
-        Tab("Bundle", Icons.Default.Description) { PartnerPlaceholder("Bundle", "Vaastu + renders") },
-        Tab("Earnings", Icons.Default.AttachMoney) { PartnerPlaceholder("Earnings", "Margins + bundles") },
+        PartnerTabItem("Home", Icons.Default.Home),
+        PartnerTabItem("Buy", Icons.Default.ShoppingCart),
+        PartnerTabItem("Bundle", Icons.Default.Description),
+        PartnerTabItem("Earnings", Icons.Default.AttachMoney),
     )
-    PartnerScaffold(tabs, tab, { tab = it }, containerColor = VvColors.PartnerBg, selectedColor = VvColors.Teal)
-}
-
-private data class Tab(val label: String, val icon: ImageVector, val content: @Composable () -> Unit)
-
-@Composable
-private fun PartnerScaffold(
-    tabs: List<Tab>,
-    selected: Int,
-    onSelect: (Int) -> Unit,
-    containerColor: Color,
-    selectedColor: Color,
-) {
-    Scaffold(
-        containerColor = containerColor,
-        bottomBar = {
-            NavigationBar(containerColor = if (containerColor == VvColors.DarkBg) VvColors.DarkElevated else Color.White) {
-                tabs.forEachIndexed { index, spec ->
-                    NavigationBarItem(
-                        selected = selected == index,
-                        onClick = { onSelect(index) },
-                        icon = { Icon(spec.icon, contentDescription = spec.label) },
-                        label = { Text(spec.label, maxLines = 1) },
-                        colors = androidx.compose.material3.NavigationBarItemDefaults.colors(
-                            selectedIconColor = selectedColor,
-                            selectedTextColor = selectedColor,
-                            indicatorColor = selectedColor.copy(alpha = 0.15f),
-                        ),
-                    )
-                }
-            }
-        },
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            tabs[selected].content()
+    PartnerTabContent(
+        tabs = tabs,
+        selected = tab,
+        onSelect = { tab = it },
+        accentColor = VvColors.Teal,
+    ) {
+        when (tab) {
+            0 -> ChannelHome(session)
+            1 -> PartnerPlaceholder("Buy Credits", "Wholesale packs")
+            2 -> PartnerPlaceholder("Bundle", "Vaastu + renders")
+            else -> PartnerPlaceholder("Earnings", "Margins + bundles")
         }
     }
 }
 
 @Composable
-private fun GurujiDashboard(session: UserSessionViewModel, stats: PartnerDashboardStats, gold: Color) {
+private fun PartnerTabContent(
+    tabs: List<PartnerTabItem>,
+    selected: Int,
+    onSelect: (Int) -> Unit,
+    accentColor: Color,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                content = content,
+            )
+        }
+        PartnerBottomBar(
+            tabs = tabs,
+            selectedIndex = selected,
+            onTabSelected = onSelect,
+            accentColor = accentColor,
+        )
+    }
+}
+
+@Composable
+private fun GurujiDashboard(stats: PartnerDashboardStats) {
+    PartnerMiddlePane(background = CustomerMiddleThemes.homeGradient) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Text(
+                "YOUR KNOWLEDGE IMPACT",
+                fontSize = 8.sp,
+                fontWeight = FontWeight.Bold,
+                color = VvColors.Ink3,
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                StatCell(stats.knowledgeEntries.toString(), "Knowledge entries", VvColors.Saffron)
+                StatCell(stats.reportsInfluenced.toString(), "Reports influenced", VvColors.Jade)
+                StatCell(stats.formattedMonthlyEarnings(), "Earned this month", VvColors.Gold)
+            }
+
+            Text(
+                "TODAY'S SESSIONS",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = VvColors.Ink2,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            SessionCard(
+                "💬 Consultations",
+                "${stats.consultationBookings} bookings on your calendar",
+                VvColors.Saffron,
+                if (stats.consultationBookings > 0) "View" else "—",
+            )
+            SessionCard(
+                "⚡ Conflict Queue",
+                "${stats.openConflicts} open conflicts",
+                VvColors.Red,
+                if (stats.openConflicts > 0) "${stats.openConflicts} open" else "Clear",
+            )
+            SessionCard(
+                "📋 Report Reviews",
+                "${stats.reportsPendingReview} reports awaiting review",
+                VvColors.Jade,
+                if (stats.reportsPendingReview > 0) "Review" else "—",
+            )
+        }
+    }
+}
+
+@Composable
+private fun PartnerMiddlePane(
+    background: Brush = Brush.linearGradient(
+        colors = listOf(VvColors.Cream, VvColors.Cream),
+    ),
+    content: @Composable ColumnScope.() -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(VvColors.DarkBg)
-            .verticalScroll(rememberScrollState())
-            .padding(14.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(Brush.linearGradient(listOf(gold, gold.copy(alpha = 0.7f)))),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text("🕉", fontSize = 18.sp)
-            }
-            Column(modifier = Modifier.padding(start = 10.dp)) {
-                Text(session.displayName, color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-                Text(
-                    "👑 TIER 1 · PARAM GURUJI",
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = gold,
-                    modifier = Modifier
-                        .padding(top = 4.dp)
-                        .background(gold.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
-                        .border(1.dp, gold.copy(alpha = 0.3f), RoundedCornerShape(4.dp))
-                        .padding(horizontal = 7.dp, vertical = 2.dp),
-                )
-            }
-        }
-
-        Text("YOUR KNOWLEDGE IMPACT", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.3f))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            StatCell(stats.knowledgeEntries.toString(), "Knowledge entries", gold)
-            StatCell(stats.reportsInfluenced.toString(), "Reports influenced", Color(0xFF6CC4B4))
-            StatCell(stats.formattedMonthlyEarnings(), "Earned this month", Color(0xFFF5C76A))
-        }
-
-        Text("TODAY'S SESSIONS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.5f))
-        SessionCard(
-            "💬 Consultations",
-            "${stats.consultationBookings} bookings on your calendar",
-            gold,
-            if (stats.consultationBookings > 0) "View" else "—",
-        )
-        SessionCard(
-            "⚡ Conflict Queue",
-            "${stats.openConflicts} open conflicts",
-            Color(0xFFFCA5A5),
-            if (stats.openConflicts > 0) "${stats.openConflicts} open" else "Clear",
-        )
-        SessionCard(
-            "📋 Report Reviews",
-            "${stats.reportsPendingReview} reports awaiting review",
-            Color(0xFF6CC4B4),
-            if (stats.reportsPendingReview > 0) "Review" else "—",
-        )
-    }
+            .background(background)
+            .padding(bottom = 8.dp),
+        content = content,
+    )
 }
 
 @Composable
 private fun StatCell(value: String, label: String, color: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(4.dp)) {
-        Text(value, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = color, fontFamily = androidx.compose.ui.text.font.FontFamily.Serif)
-        Text(label, fontSize = 8.sp, color = Color.White.copy(alpha = 0.4f))
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(4.dp),
+    ) {
+        Text(
+            value,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = color,
+            fontFamily = androidx.compose.ui.text.font.FontFamily.Serif,
+        )
+        Text(label, fontSize = 8.sp, color = VvColors.Ink3)
     }
 }
 
@@ -255,14 +366,14 @@ private fun SessionCard(title: String, subtitle: String, tint: Color, action: St
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
-            .background(tint.copy(alpha = 0.08f))
-            .border(1.dp, tint.copy(alpha = 0.25f), RoundedCornerShape(10.dp))
+            .background(Color.White)
+            .border(1.dp, VvColors.Border, RoundedCornerShape(10.dp))
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(title, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = tint)
-            Text(subtitle, fontSize = 9.sp, color = Color.White.copy(alpha = 0.4f))
+            Text(subtitle, fontSize = 9.sp, color = VvColors.Ink3)
         }
         Text(
             action,
@@ -270,8 +381,9 @@ private fun SessionCard(title: String, subtitle: String, tint: Color, action: St
             fontWeight = FontWeight.Bold,
             color = tint,
             modifier = Modifier
-                .background(tint.copy(alpha = 0.2f), RoundedCornerShape(6.dp))
-                .border(1.dp, tint.copy(alpha = 0.35f), RoundedCornerShape(6.dp))
+                .clip(RoundedCornerShape(6.dp))
+                .background(tint.copy(alpha = 0.12f))
+                .border(1.dp, tint.copy(alpha = 0.25f), RoundedCornerShape(6.dp))
                 .padding(horizontal = 10.dp, vertical = 5.dp),
         )
     }
@@ -279,53 +391,34 @@ private fun SessionCard(title: String, subtitle: String, tint: Color, action: St
 
 @Composable
 private fun DesignerHome(session: UserSessionViewModel) {
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp)
-                .background(Brush.linearGradient(listOf(VvColors.Purple, Color(0xFF7B5CC6)))),
-        ) {
-            Column(modifier = Modifier.padding(14.dp).align(Alignment.BottomStart)) {
-                Text(session.designerPartnerHeroSubtitle, fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.6f))
-                Text(session.morningGreetingLine, style = VvType.title(16).copy(color = Color.White))
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    MiniStat("8", "Render credits")
-                    MiniStat("3", "Vaastu credits")
-                    MiniStat("₹9.2K", "This month")
-                }
-            }
-        }
+    PartnerMiddlePane(background = CustomerMiddleThemes.homeGradient) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            CreditBar("🖼 Render Credits", "8 remaining", 0.8f, VvColors.Purple)
-            CreditBar("📋 Vaastu Credits", "3 remaining", 0.6f, VvColors.Teal)
+            Text(session.morningGreetingLine, style = VvType.title(18))
+            Text(session.designerPartnerHeroSubtitle, fontSize = 9.sp, fontWeight = FontWeight.Bold, color = VvColors.Ink3)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                MiniStat("8", "Render credits")
+                MiniStat("3", "Vaastu credits")
+                MiniStat("₹9.2K", "This month")
+            }
+            CreditBar("🖼 Render Credits", "8 remaining", 0.8f, VvColors.Jade)
+            CreditBar("📋 Vaastu Credits", "3 remaining", 0.6f, VvColors.Saffron)
         }
     }
 }
 
 @Composable
 private fun ChannelHome(session: UserSessionViewModel) {
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-                .background(Brush.linearGradient(listOf(VvColors.Teal, Color(0xFF0A6558)))),
-        ) {
-            Column(modifier = Modifier.padding(14.dp).align(Alignment.BottomStart)) {
-                Text(session.channelPartnerHeroSubtitle, fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.6f))
-                Text(session.morningGreetingLine, style = VvType.title(16).copy(color = Color.White))
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    MiniStat("14", "Vaastu credits")
-                    MiniStat("4", "Interior credits")
-                    MiniStat("₹12.7K", "This month")
-                }
+    PartnerMiddlePane(background = CustomerMiddleThemes.homeGradient) {
+        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(session.morningGreetingLine, style = VvType.title(18))
+            Text(session.channelPartnerHeroSubtitle, fontSize = 9.sp, fontWeight = FontWeight.Bold, color = VvColors.Ink3)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                MiniStat("14", "Vaastu credits")
+                MiniStat("4", "Interior credits")
+                MiniStat("₹12.7K", "This month")
             }
-        }
-        Column(modifier = Modifier.padding(14.dp)) {
             CreditBar("📋 Vaastu Credits", "14 left", 0.7f, VvColors.Teal)
-            Spacer(modifier = Modifier.height(10.dp))
-            CreditBar("🖼 Interior Credits", "4 left", 0.4f, VvColors.Purple)
+            CreditBar("🖼 Interior Credits", "4 left", 0.4f, VvColors.Jade)
         }
     }
 }
@@ -335,14 +428,14 @@ private fun RowScope.MiniStat(value: String, label: String) {
     Column(
         modifier = Modifier
             .weight(1f)
-            .padding(end = 6.dp)
             .clip(RoundedCornerShape(7.dp))
-            .background(Color.White.copy(alpha = 0.12f))
-            .padding(6.dp),
+            .background(Color.White)
+            .border(1.dp, VvColors.Border, RoundedCornerShape(7.dp))
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(value, color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-        Text(label, fontSize = 7.sp, color = Color.White.copy(alpha = 0.6f))
+        Text(value, color = VvColors.Ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+        Text(label, fontSize = 7.sp, color = VvColors.Ink3)
     }
 }
 
@@ -353,7 +446,7 @@ private fun CreditBar(title: String, value: String, progress: Float, tint: Color
             .fillMaxWidth()
             .clip(RoundedCornerShape(11.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFE0E6ED), RoundedCornerShape(11.dp))
+            .border(1.dp, VvColors.Border, RoundedCornerShape(11.dp))
             .padding(10.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -366,7 +459,7 @@ private fun CreditBar(title: String, value: String, progress: Float, tint: Color
                 .padding(vertical = 6.dp)
                 .height(4.dp)
                 .clip(RoundedCornerShape(2.dp))
-                .background(Color(0xFFE0E6ED)),
+                .background(VvColors.Border.copy(alpha = 0.5f)),
         ) {
             Box(
                 modifier = Modifier
@@ -379,18 +472,13 @@ private fun CreditBar(title: String, value: String, progress: Float, tint: Color
 }
 
 @Composable
-private fun PartnerPlaceholder(title: String, subtitle: String, dark: Boolean = false) {
-  if (dark) {
+private fun PartnerPlaceholder(title: String, subtitle: String) {
     Box(
-      modifier = Modifier.fillMaxSize().background(VvColors.DarkBg),
-      contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(VvColors.Cream),
+        contentAlignment = Alignment.Center,
     ) {
-      Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(title, style = VvType.title(20).copy(color = Color.White))
-        Text(subtitle, style = VvType.body(13, Color.White.copy(alpha = 0.55f)), modifier = Modifier.padding(top = 8.dp))
-      }
+        SimplePlaceholderScreen(title, subtitle)
     }
-  } else {
-    SimplePlaceholderScreen(title, subtitle)
-  }
 }

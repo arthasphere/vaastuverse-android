@@ -32,6 +32,8 @@ import com.vaastuverse.app.data.UserSessionViewModel
 import com.vaastuverse.app.data.repository.OrderRepository
 import com.vaastuverse.app.data.repository.PropertyRepository
 import com.vaastuverse.app.ui.VvColors
+import com.vaastuverse.app.ui.shared.CommunicationSettingsScreen
+import com.vaastuverse.app.ui.shared.UserAccountProfileScreen
 import com.vaastuverse.app.ui.shell.AppMenuActions
 import com.vaastuverse.app.ui.shell.CustomerNavController
 import kotlinx.coroutines.launch
@@ -41,6 +43,7 @@ private enum class CustomerOverlay {
     UseCaseDetail,
     SampleReport,
     UserProfile,
+    Settings,
     Properties,
     PropertyEditor,
     Payment,
@@ -156,6 +159,10 @@ fun CustomerMainScreen(
         overlay = CustomerOverlay.None
     }
 
+    fun goBackFromSettings() {
+        overlay = CustomerOverlay.None
+    }
+
     fun goBackFromProperties() {
         overlay = CustomerOverlay.None
     }
@@ -186,6 +193,10 @@ fun CustomerMainScreen(
             title = "My profile",
             onBack = ::goBackFromProfile,
         )
+        CustomerOverlay.Settings -> CustomerTopBarMode.SubPage(
+            title = "Settings",
+            onBack = ::goBackFromSettings,
+        )
         CustomerOverlay.Properties -> CustomerTopBarMode.SubPage(
             title = "My properties",
             onBack = ::goBackFromProperties,
@@ -207,6 +218,12 @@ fun CustomerMainScreen(
     LaunchedEffect(customerNav.openProfileRequest) {
         if (customerNav.openProfileRequest > 0) {
             overlay = CustomerOverlay.UserProfile
+        }
+    }
+
+    LaunchedEffect(customerNav.openSettingsRequest) {
+        if (customerNav.openSettingsRequest > 0) {
+            overlay = CustomerOverlay.Settings
         }
     }
 
@@ -289,13 +306,23 @@ fun CustomerMainScreen(
                 }
                 CustomerOverlay.UserProfile -> {
                     CustomerMiddleScrollSection {
-                        CustomerProfileEditScreen(
+                        UserAccountProfileScreen(
+                            account = state.account,
                             profile = state.customerProfile,
                             isLoading = state.isLoading,
                             onSave = { name, city ->
                                 coordinator.saveCustomerProfileInExperience(name, city)
+                                coordinator.refreshAccount()
                                 overlay = CustomerOverlay.None
                             },
+                        )
+                    }
+                }
+                CustomerOverlay.Settings -> {
+                    CustomerMiddleScrollSection {
+                        CommunicationSettingsScreen(
+                            preferences = state.communicationPreferences,
+                            onChange = coordinator::updateCommunicationPreferences,
                         )
                     }
                 }

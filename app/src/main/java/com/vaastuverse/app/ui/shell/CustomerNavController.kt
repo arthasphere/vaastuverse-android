@@ -1,6 +1,7 @@
 package com.vaastuverse.app.ui.shell
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
@@ -20,6 +21,9 @@ class CustomerNavController {
     var openPropertiesRequest by mutableStateOf(0)
         private set
 
+    var openSettingsRequest by mutableIntStateOf(0)
+        private set
+
     fun update(title: String, showBack: Boolean, onBack: () -> Unit = {}) {
         this.title = title
         this.showBack = showBack
@@ -36,5 +40,9 @@ class CustomerNavController {
 
     fun openProperties() {
         openPropertiesRequest++
+    }
+
+    fun openSettings() {
+        openSettingsRequest++
     }
 }

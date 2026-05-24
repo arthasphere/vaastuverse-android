@@ -3,8 +3,11 @@ package com.vaastuverse.app.data
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.vaastuverse.app.data.CommunicationPreferences
+import com.vaastuverse.app.data.dto.AccountMeResponse
 import com.vaastuverse.app.data.dto.ApplicationResponse
 import com.vaastuverse.app.data.dto.CustomerProfileResponse
+import com.vaastuverse.app.data.repository.CommunicationPreferencesRepository
 import com.vaastuverse.app.data.dto.DiscoverablePartnerResponse
 import com.vaastuverse.app.data.dto.PartnerProfileResponse
 import com.vaastuverse.app.data.repository.VaastuRepository
@@ -12,6 +15,7 @@ import com.vaastuverse.app.ui.partner.PartnerPersona
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -22,6 +26,8 @@ data class AppUiState(
   val info: String? = null,
   val session: StoredSession? = null,
   val customerProfile: CustomerProfileResponse? = null,
+  val account: AccountMeResponse? = null,
+  val communicationPreferences: CommunicationPreferences = CommunicationPreferences(),
   val partnerProfiles: List<PartnerProfileResponse> = emptyList(),
   val applications: List<ApplicationResponse> = emptyList(),
   val discoverablePartners: List<DiscoverablePartnerResponse> = emptyList(),
@@ -36,6 +42,7 @@ data class AppUiState(
 class AppCoordinatorViewModel(application: Application) : AndroidViewModel(application) {
   private val tokenStore = TokenStore(application)
   private val repository = VaastuRepository(tokenStore)
+  private val commPrefsRepository = CommunicationPreferencesRepository(application)
 
   private val _state = MutableStateFlow(AppUiState())
   val state: StateFlow<AppUiState> = _state.asStateFlow()
@@ -166,6 +173,18 @@ class AppCoordinatorViewModel(application: Application) : AndroidViewModel(appli
     refreshApplicationsInternal()
   }
 
+  fun updateCommunicationPreferences(preferences: CommunicationPreferences) = viewModelScope.launch {
+    val userId = _state.value.session?.userId ?: return@launch
+    commPrefsRepository.save(userId, preferences)
+    _state.update { it.copy(communicationPreferences = preferences) }
+  }
+
+  fun refreshAccount() = runTask(showLoading = false) {
+    val session = _state.value.session ?: return@runTask
+    val account = repository.getAccountMe(session)
+    _state.update { it.copy(account = account) }
+  }
+
   fun saveCustomerProfileInExperience(displayName: String, city: String?) = runTask {
     val session = _state.value.session ?: throw IllegalStateException("Not logged in")
     val profile = repository.saveCustomerProfile(
@@ -232,6 +251,12 @@ class AppCoordinatorViewModel(application: Application) : AndroidViewModel(appli
         session
       }
       val profile = repository.getCustomerProfile(activeSession)
+      val account = try {
+        repository.getAccountMe(activeSession)
+      } catch (_: Exception) {
+        null
+      }
+      val commPrefs = commPrefsRepository.preferencesFlow(activeSession.userId).first()
       val partners = if (PartnerAccess.isOnboarded(activeSession)) {
         repository.listPartnerProfiles(activeSession)
       } else {
@@ -243,6 +268,8 @@ class AppCoordinatorViewModel(application: Application) : AndroidViewModel(appli
         it.copy(
           session = activeSession,
           customerProfile = profile,
+          account = account,
+          communicationPreferences = commPrefs,
           partnerProfiles = partners,
           applications = apps,
           profileExists = profileExists,

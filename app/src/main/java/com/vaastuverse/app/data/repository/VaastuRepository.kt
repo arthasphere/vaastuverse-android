@@ -6,6 +6,7 @@ import com.vaastuverse.app.data.PartnerDashboardStats
 import com.vaastuverse.app.data.StoredSession
 import com.vaastuverse.app.data.TokenStore
 import com.vaastuverse.app.data.dto.DiscoverablePartnerResponse
+import com.vaastuverse.app.data.dto.AccountMeResponse
 import com.vaastuverse.app.data.dto.ApplicationResponse
 import com.vaastuverse.app.data.dto.ApplyRequest
 import com.vaastuverse.app.data.dto.AuthResponse
@@ -50,6 +51,9 @@ class VaastuRepository(private val tokenStore: TokenStore) {
       ?: throw IllegalStateException("Not logged in")
     return persist(api.refresh(current.refreshToken))
   }
+
+  suspend fun getAccountMe(session: StoredSession): AccountMeResponse =
+    api.getAccountMe(ApiClient.bearer(session.accessToken))
 
   suspend fun getCustomerProfile(session: StoredSession): CustomerProfileResponse? {
     return try {

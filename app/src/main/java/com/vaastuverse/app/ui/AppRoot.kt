@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vaastuverse.app.data.AppCoordinatorViewModel
 import com.vaastuverse.app.data.AppPhase
 import com.vaastuverse.app.data.ExperienceMode
+import com.vaastuverse.app.data.PartnerAccess
 import com.vaastuverse.app.data.UserSessionViewModel
 import com.vaastuverse.app.ui.flow.CustomerProfileScreen
 import com.vaastuverse.app.ui.flow.EmailLoginScreen
@@ -31,15 +32,28 @@ fun AppRoot(
 ) {
     val state by coordinator.state.collectAsState()
 
-    LaunchedEffect(state.phase, state.customerProfile, state.partnerProfiles) {
-        if (state.phase == AppPhase.Experience) {
-            val profile = state.customerProfile
-            if (profile != null && state.experienceMode == ExperienceMode.Customer) {
-                session.applyCustomerProfile(profile.displayName, profile.city)
+    LaunchedEffect(
+        state.phase,
+        state.experienceMode,
+        state.customerProfile,
+        state.partnerProfiles,
+        state.session,
+    ) {
+        if (state.phase != AppPhase.Experience) return@LaunchedEffect
+        val profile = state.customerProfile
+        when (state.experienceMode) {
+            ExperienceMode.Customer -> {
+                if (profile != null) {
+                    session.applyCustomerProfile(profile.displayName, profile.city)
+                }
             }
-            val partner = state.partnerProfiles.firstOrNull()
-            if (partner != null && state.experienceMode == ExperienceMode.Partner) {
-                session.applyPartnerProfile(partner.businessName)
+            ExperienceMode.Partner -> {
+                val partner = state.partnerProfiles.firstOrNull() ?: return@LaunchedEffect
+                session.applyPartnerProfile(
+                    businessName = partner.businessName,
+                    partnerDisplayName = profile?.displayName,
+                    partnerRole = PartnerAccess.primaryPartnerRole(state.session),
+                )
             }
         }
     }

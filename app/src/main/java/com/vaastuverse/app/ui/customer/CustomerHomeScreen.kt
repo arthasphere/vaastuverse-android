@@ -114,26 +114,30 @@ private fun UseCaseCardRow(
                 Text(card.title, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VvColors.Ink)
                 Text(card.subtitle, fontSize = 9.sp, color = VvColors.Ink3)
             }
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    card.strikePrice,
-                    fontSize = 8.sp,
-                    color = VvColors.Ink3,
-                    textDecoration = TextDecoration.LineThrough,
-                )
-                Text(card.price, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = VvColors.Jade)
-            }
+            Text(
+                card.strikePrice,
+                fontSize = 8.sp,
+                color = VvColors.Ink3,
+                textDecoration = TextDecoration.LineThrough,
+                modifier = Modifier.padding(end = 4.dp),
+            )
         }
         Button(
             onClick = onQuickBuy,
-            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = VvColors.Jade,
                 contentColor = Color.White,
             ),
             shape = RoundedCornerShape(8.dp),
         ) {
-            Text("Quick buy", fontSize = 9.sp, fontWeight = FontWeight.Bold)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                Text("Buy now", fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                Text(card.price, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }

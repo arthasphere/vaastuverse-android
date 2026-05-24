@@ -1,5 +1,6 @@
 package com.vaastuverse.app.data.network
 
+import com.vaastuverse.app.data.dto.AccountMeResponse
 import com.vaastuverse.app.data.dto.ApplicationResponse
 import com.vaastuverse.app.data.dto.ApplyRequest
 import com.vaastuverse.app.data.dto.AuthResponse
@@ -40,6 +41,9 @@ interface VaastuVerseApi {
 
     @POST("api/v1/auth/refresh")
     suspend fun refresh(@Header("X-Refresh-Token") refreshToken: String): AuthResponse
+
+    @GET("api/v1/auth/me")
+    suspend fun getAccountMe(@Header("Authorization") authorization: String): AccountMeResponse
 
     @GET("api/v1/users/{userId}/customer-profile")
     suspend fun getCustomerProfile(

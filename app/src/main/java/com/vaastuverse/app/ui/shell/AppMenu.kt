@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.DropdownMenu
@@ -38,6 +39,7 @@ import com.vaastuverse.app.ui.VvColors
 data class AppMenuActions(
     val experienceMode: ExperienceMode,
     val onEditProfile: () -> Unit,
+    val onOpenSettings: () -> Unit = {},
     val onManageProperties: () -> Unit,
     val onSwitchToCustomer: () -> Unit,
     val onSwitchToPartner: () -> Unit,
@@ -94,17 +96,21 @@ private fun AppMenuDropdown(
     actions: AppMenuActions,
 ) {
     DropdownMenu(expanded = expanded, onDismissRequest = onDismiss) {
+        MenuRow(Icons.Default.Person, "My profile") {
+            onDismiss()
+            actions.onEditProfile()
+        }
+        MenuRow(Icons.Default.Settings, "Settings") {
+            onDismiss()
+            actions.onOpenSettings()
+        }
         if (actions.experienceMode == ExperienceMode.Customer) {
-            MenuRow(Icons.Default.Person, "My profile") {
-                onDismiss()
-                actions.onEditProfile()
-            }
             MenuRow(Icons.Default.Place, "My properties") {
                 onDismiss()
                 actions.onManageProperties()
             }
-            HorizontalDivider()
         }
+        HorizontalDivider()
         if (actions.experienceMode == ExperienceMode.Customer) {
             MenuRow(Icons.Default.Work, "Switch to partner") {
                 onDismiss()

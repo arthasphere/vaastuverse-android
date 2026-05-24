@@ -13,6 +13,12 @@ class UserSessionViewModel : ViewModel() {
     var organizationName by mutableStateOf<String?>(null)
         private set
 
+    var partnerRole by mutableStateOf<String?>(null)
+        private set
+
+    var partnerTrack by mutableStateOf<PartnerTrack?>(null)
+        private set
+
     var leadExpertDisplayName by mutableStateOf("Guruji")
         private set
 
@@ -43,6 +49,22 @@ class UserSessionViewModel : ViewModel() {
     val leadExpertPossessivePhrase: String
         get() = "${leadGuideShortName}'s"
 
+    val partnerTrackEmoji: String
+        get() = partnerTrack?.emoji ?: "🤝"
+
+    /** Tier line for Guruji, or track label for Designer / Channel. */
+    val partnerBadgeLine: String
+        get() {
+            partnerRole?.let { PartnerTrack.gurujiTierLabel(it) }?.let { return it }
+            val track = partnerTrack ?: return "Partner"
+            val org = organizationName?.trim().takeUnless { it.isNullOrEmpty() }
+            return if (org != null) {
+                "${org.uppercase()} · ${track.label.uppercase()}"
+            } else {
+                track.label.uppercase()
+            }
+        }
+
     fun applyProfile(
         displayName: String,
         organizationName: String? = null,
@@ -72,8 +94,14 @@ class UserSessionViewModel : ViewModel() {
         applyProfile(displayName, organizationName)
     }
 
-    fun applyPartnerProfile(businessName: String?, partnerDisplayName: String? = null) {
+    fun applyPartnerProfile(
+        businessName: String?,
+        partnerDisplayName: String? = null,
+        partnerRole: String? = null,
+    ) {
         val name = partnerDisplayName?.trim().takeUnless { it.isNullOrEmpty() } ?: displayName
         applyProfile(name, organizationName = businessName)
+        this.partnerRole = partnerRole?.trim().takeUnless { it.isNullOrEmpty() }
+        this.partnerTrack = partnerRole?.let { PartnerTrack.fromRequestedRole(it) }
     }
 }
