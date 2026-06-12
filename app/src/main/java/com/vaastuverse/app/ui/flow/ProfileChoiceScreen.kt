@@ -32,8 +32,13 @@ fun ProfileChoiceScreen(state: AppUiState, coordinator: AppCoordinatorViewModel)
 
     FlowScaffold("Welcome, $name", state, coordinator::clearMessage) {
         Text(
-            "Choose how you want to use VaastuVerse right now.",
+            "Choose your VaastuVerse path. This choice is permanent for this account.",
             style = MaterialTheme.typography.bodyMedium,
+            color = VvColors.Ink2,
+        )
+        Text(
+            "You cannot switch to the other path later unless you delete this account and sign up again.",
+            style = MaterialTheme.typography.bodySmall,
             color = VvColors.Ink2,
         )
         ProfileCard(
@@ -43,19 +48,17 @@ fun ProfileChoiceScreen(state: AppUiState, coordinator: AppCoordinatorViewModel)
             tint = VvColors.Jade,
             onClick = { coordinator.chooseCustomer() },
         )
-        if (partnerReady || partnerPending || PartnerAccess.availableTracks(state.session, state.applications).isNotEmpty()) {
-            ProfileCard(
-                emoji = PartnerAccess.lockedTrack(state.session, state.applications)?.emoji ?: "🕉",
-                title = partnerTitle,
-                subtitle = when {
-                    partnerReady -> "Your onboarded partner tools (one role per account)"
-                    partnerPending -> "Application in review — view status only until approved"
-                    else -> "Apply once as Guruji, Designer, or Channel partner"
-                },
-                tint = VvColors.Gold,
-                onClick = { coordinator.choosePartner() },
-            )
-        }
+        ProfileCard(
+            emoji = PartnerAccess.lockedTrack(state.session, state.applications)?.emoji ?: "🕉",
+            title = if (partnerReady) partnerTitle else "Partner",
+            subtitle = when {
+                partnerReady -> "Your onboarded partner tools (one role per account)"
+                partnerPending -> "Application in review — continue partner onboarding"
+                else -> "Apply once as Guruji, Designer, or Channel partner"
+            },
+            tint = VvColors.Gold,
+            onClick = { coordinator.choosePartner() },
+        )
     }
 }
 

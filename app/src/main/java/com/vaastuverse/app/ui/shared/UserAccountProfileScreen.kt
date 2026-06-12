@@ -18,6 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.vaastuverse.app.data.dto.AccountMeResponse
 import com.vaastuverse.app.data.dto.CustomerProfileResponse
+import com.vaastuverse.app.data.formatDateOfBirthForDisplay
+import com.vaastuverse.app.data.isValidDateOfBirthInput
+import com.vaastuverse.app.data.parseDateOfBirthInput
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
 
@@ -27,7 +30,8 @@ fun UserAccountProfileScreen(
     profile: CustomerProfileResponse?,
     isLoading: Boolean,
     showCity: Boolean = true,
-    onSave: (displayName: String, city: String?) -> Unit,
+    showDateOfBirth: Boolean = true,
+    onSave: (displayName: String, city: String?, dateOfBirthIso: String?) -> Unit,
 ) {
     var displayName by rememberSaveable(account?.userId, profile?.displayName) {
         mutableStateOf(profile?.displayName.orEmpty())
@@ -35,9 +39,13 @@ fun UserAccountProfileScreen(
     var city by rememberSaveable(account?.userId, profile?.city) {
         mutableStateOf(profile?.city.orEmpty())
     }
+    var dateOfBirth by rememberSaveable(account?.userId, profile?.dateOfBirth) {
+        mutableStateOf(formatDateOfBirthForDisplay(profile?.dateOfBirth))
+    }
 
     val phoneVerified = account?.phoneVerified == true
     val emailVerified = account?.emailVerified == true
+    val dobValid = dateOfBirth.isBlank() || isValidDateOfBirthInput(dateOfBirth)
 
     Column(
         modifier = Modifier
@@ -50,7 +58,7 @@ fun UserAccountProfileScreen(
             style = VvType.title(16),
         )
         Text(
-            "Verified phone and email cannot be changed here. Update your display name and city below.",
+            "Verified phone and email cannot be changed here. Date of birth is required before you submit property details for a report.",
             style = VvType.body(12, VvColors.Ink2),
         )
 
@@ -88,9 +96,27 @@ fun UserAccountProfileScreen(
             )
         }
 
+        if (showDateOfBirth) {
+            ProfileField(
+                label = "Date of birth (DD/MM/YYYY)",
+                value = dateOfBirth,
+                onValueChange = { dateOfBirth = it },
+                enabled = true,
+                verified = false,
+                isError = dateOfBirth.isNotBlank() && !dobValid,
+                supportingText = if (dateOfBirth.isNotBlank() && !dobValid) "Use DD/MM/YYYY format" else null,
+            )
+        }
+
         Button(
-            onClick = { onSave(displayName.trim(), city.trim().ifBlank { null }) },
-            enabled = displayName.isNotBlank() && !isLoading,
+            onClick = {
+                onSave(
+                    displayName.trim(),
+                    city.trim().ifBlank { null },
+                    parseDateOfBirthInput(dateOfBirth),
+                )
+            },
+            enabled = displayName.isNotBlank() && dobValid && !isLoading,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(if (isLoading) "Saving…" else "Save profile")
@@ -105,6 +131,8 @@ private fun ProfileField(
     onValueChange: (String) -> Unit,
     enabled: Boolean,
     verified: Boolean,
+    isError: Boolean = false,
+    supportingText: String? = null,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Row(
@@ -128,6 +156,8 @@ private fun ProfileField(
             singleLine = true,
             enabled = enabled,
             readOnly = !enabled,
+            isError = isError,
+            supportingText = supportingText?.let { { Text(it) } },
         )
     }
 }

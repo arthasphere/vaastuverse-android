@@ -47,6 +47,15 @@ fun DummyPaymentScreen(
         ) {
             Text("ORDER SUMMARY", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = VvColors.Ink3)
             Text(checkout.packageTitle, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+            checkout.consultationOffer?.let { offer ->
+                Text("${offer.durationMinutes}-minute Guruji consultation", fontSize = 11.sp, color = VvColors.Ink2)
+            }
+            checkout.linkedReportTitle?.let { title ->
+                Text("For report: $title", fontSize = 11.sp, color = VvColors.Ink2)
+            }
+            checkout.property?.let { property ->
+                Text("Property: ${property.label}", fontSize = 11.sp, color = VvColors.Ink2)
+            }
             Text("Amount due: ${checkout.priceLabel}", color = VvColors.Jade, fontWeight = FontWeight.Bold, fontSize = 18.sp)
         }
         Button(

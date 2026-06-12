@@ -6,4 +6,7 @@ data class AccountMeResponse(
     val email: String?,
     val phoneVerified: Boolean,
     val emailVerified: Boolean,
+    val accountPersona: String? = null,
 )
+
+data class SetPersonaRequest(val persona: String)

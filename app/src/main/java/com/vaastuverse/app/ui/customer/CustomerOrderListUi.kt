@@ -27,9 +27,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.clickable
 import com.vaastuverse.app.data.CustomerOrder
 import com.vaastuverse.app.data.OrderKind
 import com.vaastuverse.app.data.isOpen
+import com.vaastuverse.app.data.isOrderViewable
+import com.vaastuverse.app.data.orderStatusLine
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
 import java.text.SimpleDateFormat
@@ -121,24 +124,30 @@ private fun VerticalScrollIndicator(
 }
 
 @Composable
-fun ConsultationInProgressCard(order: CustomerOrder) {
+fun ConsultationInProgressCard(
+    order: CustomerOrder,
+    nowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (() -> Unit)? = null,
+) {
     OrderSummaryCard(
         order = order,
-        statusLine = if (order.isOpen()) {
-            "In progress · Guruji review pending"
-        } else {
-            "Completed"
-        },
+        statusLine = order.orderStatusLine(nowMs),
         statusColor = if (order.isOpen()) VvColors.Jade else VvColors.Ink3,
+        onClick = if (order.isOrderViewable()) onOrderAction else null,
     )
 }
 
 @Composable
-fun ReportOrderCard(order: CustomerOrder) {
+fun ReportOrderCard(
+    order: CustomerOrder,
+    nowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (() -> Unit)? = null,
+) {
     OrderSummaryCard(
         order = order,
-        statusLine = order.status.replace('_', ' '),
+        statusLine = order.orderStatusLine(nowMs),
         statusColor = if (order.isOpen()) VvColors.Jade else VvColors.Ink3,
+        onClick = if (order.isOrderViewable()) onOrderAction else null,
     )
 }
 
@@ -147,6 +156,7 @@ private fun OrderSummaryCard(
     order: CustomerOrder,
     statusLine: String,
     statusColor: Color,
+    onClick: (() -> Unit)? = null,
 ) {
     val useCase = CustomerUseCases.get(order.useCaseId)
     val dateLabel = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
@@ -160,6 +170,7 @@ private fun OrderSummaryCard(
             .clip(RoundedCornerShape(11.dp))
             .background(Color.White)
             .border(1.dp, VvColors.Jade.copy(alpha = 0.35f), RoundedCornerShape(11.dp))
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(horizontal = 12.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -174,10 +185,20 @@ private fun OrderSummaryCard(
                 maxLines = 1,
             )
             Text(
-                "$kindLabel · ${order.priceLabel} · Updated $dateLabel",
+                buildString {
+                    append(kindLabel)
+                    append(" · ")
+                    append(order.priceLabel)
+                    order.propertyLabel?.takeIf { it.isNotBlank() }?.let {
+                        append(" · ")
+                        append(it)
+                    }
+                    append(" · Updated ")
+                    append(dateLabel)
+                },
                 fontSize = 9.sp,
                 color = VvColors.Ink3,
-                maxLines = 1,
+                maxLines = 2,
             )
             Text(
                 statusLine,

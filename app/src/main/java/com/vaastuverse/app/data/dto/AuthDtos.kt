@@ -19,6 +19,7 @@ data class AuthResponse(
     val userId: String,
     val roles: List<String>,
     val tokenType: String? = null,
+    val accountPersona: String? = null,
 )
 
 data class MessageResponse(val message: String)

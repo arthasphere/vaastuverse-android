@@ -43,7 +43,16 @@ fun PartnerApplyScreen(state: AppUiState, coordinator: AppCoordinatorViewModel) 
     var selectedTier by rememberSaveable { mutableStateOf("GURUJI_T2") }
     val path = PartnerTrack.entries.find { it.name == selectedPath } ?: initialPath
 
-    FlowScaffold("Partner application", state, coordinator::clearMessage, onBack = coordinator::goToProfileChoice) {
+    FlowScaffold(
+        title = "Partner application",
+        state = state,
+        onClearMessage = coordinator::clearMessage,
+        onBack = if (PartnerAccess.hasOpenApplication(state.applications)) {
+            { coordinator.openPartnerOnboardingGate() }
+        } else {
+            null
+        },
+    ) {
         HintText(
             "You can join as only one partner type for life of this account: Guruji, Designer, or Channel. Choose carefully.",
         )

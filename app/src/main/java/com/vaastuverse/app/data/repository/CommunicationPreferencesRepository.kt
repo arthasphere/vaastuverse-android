@@ -36,4 +36,11 @@ class CommunicationPreferencesRepository(private val context: Context) {
             store[key(userId, "marketing")] = prefs.marketingEnabled
         }
     }
+
+    suspend fun clear(userId: String) {
+        context.commPrefsDataStore.edit { store ->
+            listOf("push", "sms", "email", "order_updates", "partner_alerts", "marketing")
+                .forEach { field -> store.remove(key(userId, field)) }
+        }
+    }
 }

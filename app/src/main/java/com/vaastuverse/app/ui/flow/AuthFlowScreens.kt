@@ -45,7 +45,7 @@ fun OtpLoginScreen(state: AppUiState, coordinator: AppCoordinatorViewModel) {
                 coordinator.sendOtp(phone)
             }
         } else {
-            HintText("OTP sent. Dev: view code at /dev/logs/auth or docker logs auth-service")
+            HintText("OTP sent. Check your SMS or ask your administrator if you did not receive it.")
             OutlinedTextField(
                 value = code,
                 onValueChange = { code = it.filter { ch -> ch.isDigit() }.take(6) },
@@ -80,7 +80,7 @@ fun RegisterScreen(state: AppUiState, coordinator: AppCoordinatorViewModel) {
         OutlinedTextField(email, { email = it }, label = { androidx.compose.material3.Text("Email") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
         OutlinedTextField(password, { password = it }, label = { androidx.compose.material3.Text("Password") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
         OutlinedTextField(displayName, { displayName = it }, label = { androidx.compose.material3.Text("Display name") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-        HintText("You will complete your customer profile on the next step.")
+        HintText("Next: basic profile, then a one-time Customer or Partner choice.")
         PrimaryButton("Register", enabled = phone.length == 10 && !state.isLoading) {
             coordinator.register(phone, email, password, displayName)
         }
@@ -111,7 +111,7 @@ fun CustomerProfileScreen(state: AppUiState, coordinator: AppCoordinatorViewMode
     }
 
     FlowScaffold("Your profile", state, coordinator::clearMessage) {
-        HintText("Tell us how to greet you in the customer app.")
+        HintText("Basic details for your account. On the next screen you choose Customer or Partner — this cannot be changed later.")
         OutlinedTextField(displayName, { displayName = it }, label = { androidx.compose.material3.Text("Full name *") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
         OutlinedTextField(city, { city = it }, label = { androidx.compose.material3.Text("City") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
         PrimaryButton("Save & continue", enabled = displayName.isNotBlank() && !state.isLoading) {

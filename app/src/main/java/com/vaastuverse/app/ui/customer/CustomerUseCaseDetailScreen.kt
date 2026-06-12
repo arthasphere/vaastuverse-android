@@ -32,8 +32,10 @@ import com.vaastuverse.app.ui.VvType
 fun CustomerUseCaseDetailScreen(
     useCase: CustomerUseCaseDetail,
     session: UserSessionViewModel,
+    aiGuruEnabled: Boolean = false,
     onViewSampleReport: () -> Unit,
     onOrderReport: () -> Unit = {},
+    onOrderAiReport: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -94,6 +96,13 @@ fun CustomerUseCaseDetailScreen(
             expertName = session.leadGuideShortName,
             onOrder = onOrderReport,
         )
+
+        if (aiGuruEnabled) {
+            AiPricingCard(
+                useCase = useCase,
+                onOrder = onOrderAiReport,
+            )
+        }
     }
 }
 
@@ -198,6 +207,47 @@ private fun PricingCard(
             colors = ButtonDefaults.buttonColors(containerColor = VvColors.Jade),
         ) {
             Text(useCase.ctaLabel)
+        }
+    }
+}
+
+@Composable
+private fun AiPricingCard(
+    useCase: CustomerUseCaseDetail,
+    onOrder: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(VvColors.Ink.copy(alpha = 0.04f))
+            .border(1.dp, VvColors.Border, RoundedCornerShape(12.dp))
+            .padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            "AI REPORT · QUICK START",
+            fontSize = 8.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.8.sp,
+            color = VvColors.Ink3,
+        )
+        Text(
+            CustomerUseCases.aiPriceLabel(),
+            style = VvType.title(26).copy(color = VvColors.Ink),
+        )
+        Text(
+            "Instant AI Vaastu report for ${useCase.headerTitle.lowercase()}. No Guruji iteration — upgrade later for verification.",
+            fontSize = 10.sp,
+            color = VvColors.Ink3,
+            lineHeight = 15.sp,
+        )
+        Button(
+            onClick = onOrder,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = VvColors.Ink),
+        ) {
+            Text("Get AI report (${CustomerUseCases.aiPriceLabel()})")
         }
     }
 }

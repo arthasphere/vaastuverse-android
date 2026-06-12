@@ -44,11 +44,10 @@ fun ExperienceShellScreen(
             }
         },
         onManageProperties = { customerNav.openProperties() },
-        onSwitchToCustomer = { coordinator.chooseCustomer() },
-        onSwitchToPartner = { coordinator.choosePartner() },
         partnerOnboardingInProgress = PartnerAccess.hasOpenApplication(state.applications)
             && !PartnerAccess.isOnboarded(state.session),
         onViewPartnerApplication = { coordinator.openPartnerOnboardingGate() },
+        onDeleteAccount = { coordinator.deleteAccount() },
         onSignOut = { coordinator.logout() },
     )
 

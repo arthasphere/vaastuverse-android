@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
@@ -51,6 +52,10 @@ import com.vaastuverse.app.data.PartnerDashboardStats
 import com.vaastuverse.app.data.UserSessionViewModel
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
+import androidx.compose.ui.platform.LocalContext
+import com.vaastuverse.app.data.repository.ConsultationRepository
+import com.vaastuverse.app.data.repository.OrderRepository
+import com.vaastuverse.app.data.repository.ReportReviewRepository
 import com.vaastuverse.app.ui.customer.CustomerMiddleScrollSection
 import com.vaastuverse.app.ui.customer.CustomerMiddleThemes
 import com.vaastuverse.app.ui.customer.SimplePlaceholderScreen
@@ -151,8 +156,8 @@ fun PartnerShellScreen(
                             account = state.account,
                             profile = state.customerProfile,
                             isLoading = state.isLoading,
-                            onSave = { name, city ->
-                                coordinator.saveCustomerProfileInExperience(name, city)
+                            onSave = { name, city, dob ->
+                                coordinator.saveCustomerProfileInExperience(name, city, dob)
                                 coordinator.refreshAccount()
                                 overlay = PartnerOverlay.None
                             },
@@ -168,7 +173,12 @@ fun PartnerShellScreen(
                     }
                 }
                 PartnerOverlay.None -> when (activePersona) {
-                    PartnerPersona.Guruji -> GurujiTabShell(session, stats)
+                    PartnerPersona.Guruji -> GurujiTabShell(
+                        session = session,
+                        stats = stats,
+                        storedSession = state.session,
+                        onNotify = coordinator::showUserMessage,
+                    )
                     PartnerPersona.Designer -> DesignerTabShell(session)
                     PartnerPersona.Channel -> ChannelTabShell(session)
                 }
@@ -178,11 +188,21 @@ fun PartnerShellScreen(
 }
 
 @Composable
-private fun GurujiTabShell(session: UserSessionViewModel, stats: PartnerDashboardStats) {
+private fun GurujiTabShell(
+    session: UserSessionViewModel,
+    stats: PartnerDashboardStats,
+    storedSession: com.vaastuverse.app.data.StoredSession?,
+    onNotify: (String) -> Unit = {},
+) {
+    val context = LocalContext.current
+    val orderRepo = remember { OrderRepository(context.applicationContext) }
+    val reviewRepo = remember { ReportReviewRepository() }
+    val consultationRepo = remember { ConsultationRepository() }
     var tab by remember { mutableIntStateOf(0) }
     val tabs = listOf(
         PartnerTabItem("Dashboard", Icons.Default.BarChart),
-        PartnerTabItem("Teach", Icons.Default.Chat),
+        PartnerTabItem("Reports", Icons.Default.Description),
+        PartnerTabItem("Consult", Icons.Default.CalendarMonth),
         PartnerTabItem("Conflicts", Icons.Default.Bolt),
         PartnerTabItem("Earnings", Icons.Default.AttachMoney),
     )
@@ -194,8 +214,19 @@ private fun GurujiTabShell(session: UserSessionViewModel, stats: PartnerDashboar
     ) {
         when (tab) {
             0 -> GurujiDashboard(stats)
-            1 -> PartnerPlaceholder("Teach", "${stats.knowledgeEntries} knowledge entries")
-            2 -> PartnerPlaceholder("Conflicts", "${stats.openConflicts} open conflicts")
+            1 -> PartnerGurujiReportsScreen(
+                session = storedSession,
+                orderRepo = orderRepo,
+                reviewRepo = reviewRepo,
+                onNotify = onNotify,
+            )
+            2 -> PartnerGurujiConsultationsScreen(
+                session = storedSession,
+                orderRepo = orderRepo,
+                consultationRepo = consultationRepo,
+                onNotify = onNotify,
+            )
+            3 -> PartnerPlaceholder("Conflicts", "${stats.openConflicts} open conflicts")
             else -> PartnerPlaceholder("Earnings", "Revenue share")
         }
     }

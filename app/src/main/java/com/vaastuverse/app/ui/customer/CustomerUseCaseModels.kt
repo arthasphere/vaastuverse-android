@@ -1,5 +1,7 @@
 package com.vaastuverse.app.ui.customer
 
+import com.vaastuverse.app.data.FeatureFlags
+
 enum class CustomerUseCaseId {
     HOME,
     OFFICE,
@@ -136,4 +138,9 @@ object CustomerUseCases {
     )
 
     val landingCards = listOf(home, office, shop, factory)
+
+    fun aiPackageTitle(useCase: CustomerUseCaseDetail): String =
+        "${useCase.headerTitle} · AI"
+
+    fun aiPriceLabel(): String = FeatureFlags.guruMatching.aiPriceLabel
 }

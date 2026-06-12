@@ -5,6 +5,9 @@ import com.google.gson.JsonObject
 import com.vaastuverse.app.data.PartnerDashboardStats
 import com.vaastuverse.app.data.StoredSession
 import com.vaastuverse.app.data.TokenStore
+import com.vaastuverse.app.data.ConsultationOffer
+import com.vaastuverse.app.data.dto.BookConsultationRequest
+import com.vaastuverse.app.data.dto.BookingResponse
 import com.vaastuverse.app.data.dto.DiscoverablePartnerResponse
 import com.vaastuverse.app.data.dto.AccountMeResponse
 import com.vaastuverse.app.data.dto.ApplicationResponse
@@ -17,6 +20,7 @@ import com.vaastuverse.app.data.dto.OtpSendRequest
 import com.vaastuverse.app.data.dto.OtpVerifyRequest
 import com.vaastuverse.app.data.dto.PartnerProfileResponse
 import com.vaastuverse.app.data.dto.RegisterRequest
+import com.vaastuverse.app.data.dto.SetPersonaRequest
 import com.vaastuverse.app.data.network.ActiveRoleHolder
 import com.vaastuverse.app.data.network.ApiClient
 import retrofit2.HttpException
@@ -55,6 +59,14 @@ class VaastuRepository(private val tokenStore: TokenStore) {
   suspend fun getAccountMe(session: StoredSession): AccountMeResponse =
     api.getAccountMe(ApiClient.bearer(session.accessToken))
 
+  suspend fun setPersona(session: StoredSession, persona: String): AccountMeResponse =
+    api.setPersona(ApiClient.bearer(session.accessToken), SetPersonaRequest(persona))
+
+  suspend fun deleteAccount(session: StoredSession) {
+    api.deleteAccount(ApiClient.bearer(session.accessToken))
+    tokenStore.clear()
+  }
+
   suspend fun getCustomerProfile(session: StoredSession): CustomerProfileResponse? {
     return try {
       api.getCustomerProfile(session.userId, ApiClient.bearer(session.accessToken))
@@ -73,8 +85,9 @@ class VaastuRepository(private val tokenStore: TokenStore) {
     displayName: String,
     city: String?,
     exists: Boolean,
+    dateOfBirth: String? = null,
   ): CustomerProfileResponse {
-    val body = CustomerProfileRequest(displayName, city)
+    val body = CustomerProfileRequest(displayName, city, dateOfBirth = dateOfBirth)
     val auth = ApiClient.bearer(session.accessToken)
     return if (exists) {
       api.updateCustomerProfile(session.userId, auth, body)
@@ -124,6 +137,28 @@ class VaastuRepository(private val tokenStore: TokenStore) {
     } finally {
       ActiveRoleHolder.activeRole = null
     }
+  }
+
+  suspend fun bookConsultation(
+    session: StoredSession,
+    gurujiId: String,
+    offer: ConsultationOffer,
+    reportId: String? = null,
+  ): BookingResponse {
+    val scheduledAt = java.time.LocalDateTime.now()
+      .plusDays(1)
+      .withHour(10)
+      .withMinute(0)
+      .format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    return api.bookConsultation(
+      ApiClient.bearer(session.accessToken),
+      BookConsultationRequest(
+        gurujiId = gurujiId,
+        consultationType = offer.apiType,
+        scheduledAt = scheduledAt,
+        reportId = reportId,
+      ),
+    )
   }
 
   suspend fun logout() = tokenStore.clear()

@@ -16,9 +16,21 @@ object ApiConfig {
 
     val gatewayBaseUrl: String
         get() {
-            val host = if (isEmulator()) "10.0.2.2" else BuildConfig.GATEWAY_HOST
+            val configured = BuildConfig.GATEWAY_HOST.trim()
+            // Emulator default is host PC (10.0.2.2). If local.properties points at a remote
+            // staging IP (EC2), use that on emulator too — otherwise OTP never hits AWS.
+            val host = if (isEmulator() && !isRemoteStagingHost(configured)) "10.0.2.2" else configured
             return "http://$host:$GATEWAY_PORT"
         }
+
+    /** True when gatewayHost is a public/staging host, not a LAN dev machine. */
+    private fun isRemoteStagingHost(host: String): Boolean {
+        if (host.isBlank()) return false
+        if (host == "10.0.2.2" || host == "localhost" || host == "127.0.0.1") return false
+        if (host.startsWith("192.168.") || (host.startsWith("10.") && host != "10.0.2.2")) return false
+        // Numeric public IPv4 from local.properties (e.g. EC2 elastic IP)
+        return host.matches(Regex("^\\d{1,3}(\\.\\d{1,3}){3}$"))
+    }
 
     val healthUrl: String get() = "$gatewayBaseUrl/actuator/health"
 

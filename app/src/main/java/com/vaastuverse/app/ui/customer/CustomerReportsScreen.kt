@@ -32,6 +32,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vaastuverse.app.data.CustomerOrder
+import com.vaastuverse.app.data.OrderKind
+import com.vaastuverse.app.data.isOrderViewable
 import com.vaastuverse.app.data.repository.OrderRepository
 import com.vaastuverse.app.ui.VvColors
 import com.vaastuverse.app.ui.VvType
@@ -48,6 +50,8 @@ fun CustomerReportsScreen(
     modifier: Modifier = Modifier,
     userId: String?,
     orderRepo: OrderRepository,
+    orderNowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (CustomerOrder) -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
     val scroll = rememberScrollState()
@@ -69,7 +73,8 @@ fun CustomerReportsScreen(
                 open = reportsTab == ReportsTab.Open.ordinal,
                 page = pageToLoad,
             )
-            displayedOrders = if (reset) result.items else displayedOrders + result.items
+            val reportItems = result.items.filter { it.kind == OrderKind.REPORT }
+            displayedOrders = if (reset) reportItems else displayedOrders + reportItems
             hasMore = result.hasMore
             nextPage = pageToLoad + 1
             isLoading = false
@@ -85,7 +90,7 @@ fun CustomerReportsScreen(
             open = reportsTab == ReportsTab.Open.ordinal,
             page = 0,
         )
-        displayedOrders = result.items
+        displayedOrders = result.items.filter { it.kind == OrderKind.REPORT }
         hasMore = result.hasMore
         nextPage = 1
         lastLoadTriggeredAtPage = 0
@@ -167,7 +172,15 @@ fun CustomerReportsScreen(
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(OrderCardSpacing)) {
                     displayedOrders.forEach { order ->
-                        ReportOrderCard(order = order)
+                        ReportOrderCard(
+                            order = order,
+                            nowMs = orderNowMs,
+                            onOrderAction = if (order.isOrderViewable()) {
+                                { onOrderAction(order) }
+                            } else {
+                                null
+                            },
+                        )
                     }
                 }
             }

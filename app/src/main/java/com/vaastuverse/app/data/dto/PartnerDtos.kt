@@ -48,6 +48,39 @@ data class ReportSummaryResponse(
 )
 
 data class BookingResponse(
-    val id: String?,
-    val status: String?,
+    val id: String? = null,
+    val customerId: String? = null,
+    val gurujiId: String? = null,
+    val status: String? = null,
+    val consultationType: String? = null,
+    val scheduledAt: String? = null,
+    val amount: Double? = null,
+    val durationMinutes: Int? = null,
+)
+
+data class GurujiAvailabilityResponse(
+    val id: Long? = null,
+    val gurujiId: String? = null,
+    val dayOfWeek: Int? = null,
+    val slotDate: String? = null,
+    val startTime: String? = null,
+    val endTime: String? = null,
+    val active: Boolean? = null,
+)
+
+data class AvailabilitySlotRequest(
+    val date: String,
+    val startTime: String,
+    val endTime: String,
+)
+
+data class TwoWeekAvailabilityRequest(
+    val slots: List<AvailabilitySlotRequest>,
+)
+
+data class BookConsultationRequest(
+    val gurujiId: String,
+    val consultationType: String,
+    val scheduledAt: String,
+    val reportId: String? = null,
 )

@@ -41,10 +41,9 @@ data class AppMenuActions(
     val onEditProfile: () -> Unit,
     val onOpenSettings: () -> Unit = {},
     val onManageProperties: () -> Unit,
-    val onSwitchToCustomer: () -> Unit,
-    val onSwitchToPartner: () -> Unit,
     val partnerOnboardingInProgress: Boolean,
     val onViewPartnerApplication: (() -> Unit)?,
+    val onDeleteAccount: (() -> Unit)? = null,
     val onSignOut: () -> Unit,
 )
 
@@ -110,22 +109,17 @@ private fun AppMenuDropdown(
                 actions.onManageProperties()
             }
         }
-        HorizontalDivider()
-        if (actions.experienceMode == ExperienceMode.Customer) {
-            MenuRow(Icons.Default.Work, "Switch to partner") {
-                onDismiss()
-                actions.onSwitchToPartner()
-            }
-        } else {
-            MenuRow(Icons.Default.Home, "Switch to customer") {
-                onDismiss()
-                actions.onSwitchToCustomer()
-            }
-        }
         if (actions.partnerOnboardingInProgress && actions.onViewPartnerApplication != null) {
             MenuRow(Icons.Default.SwapHoriz, "Partner application status") {
                 onDismiss()
                 actions.onViewPartnerApplication()
+            }
+        }
+        if (actions.onDeleteAccount != null) {
+            HorizontalDivider()
+            MenuRow(Icons.Default.Person, "Delete account") {
+                onDismiss()
+                actions.onDeleteAccount()
             }
         }
         HorizontalDivider()

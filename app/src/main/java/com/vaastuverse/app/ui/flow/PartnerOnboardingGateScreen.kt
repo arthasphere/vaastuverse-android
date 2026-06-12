@@ -55,10 +55,9 @@ fun PartnerOnboardingGateScreen(state: AppUiState, coordinator: AppCoordinatorVi
                             onEditProfile = {},
                             onOpenSettings = {},
                             onManageProperties = {},
-                            onSwitchToCustomer = { coordinator.chooseCustomer() },
-                            onSwitchToPartner = {},
                             partnerOnboardingInProgress = true,
                             onViewPartnerApplication = null,
+                            onDeleteAccount = { coordinator.deleteAccount() },
                             onSignOut = { coordinator.logout() },
                         ),
                     )

@@ -46,17 +46,28 @@ private val useCaseSamples = listOf(
 @Composable
 fun CustomerHomeScreen(
     session: UserSessionViewModel,
-    ongoingOrders: List<CustomerOrder> = emptyList(),
+    ongoingReports: List<CustomerOrder> = emptyList(),
+    ongoingConsultations: List<CustomerOrder> = emptyList(),
     onUseCaseClick: (CustomerUseCaseId) -> Unit,
     onQuickBuy: (CustomerUseCaseId) -> Unit,
+    orderNowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (CustomerOrder) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        ReportsInProgressSection(
+            reports = ongoingReports,
+            orderNowMs = orderNowMs,
+            onOrderAction = onOrderAction,
+        )
+
         ConsultationsInProgressSection(
-            consultations = ongoingOrders,
+            consultations = ongoingConsultations,
             leadGuideName = session.leadGuideShortName,
+            orderNowMs = orderNowMs,
+            onOrderAction = onOrderAction,
         )
 
         Text(

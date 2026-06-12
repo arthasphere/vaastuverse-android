@@ -19,12 +19,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vaastuverse.app.data.CustomerOrder
+import com.vaastuverse.app.data.isOrderViewable
+import com.vaastuverse.app.data.orderStatusLine
 import com.vaastuverse.app.ui.VvColors
 
 @Composable
 fun ConsultationsInProgressSection(
     consultations: List<CustomerOrder>,
     leadGuideName: String,
+    orderNowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (CustomerOrder) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -48,7 +52,15 @@ fun ConsultationsInProgressSection(
             )
         } else {
             OrderCardsViewport(orders = consultations) { order ->
-                ConsultationInProgressCard(order = order)
+                ConsultationInProgressCard(
+                    order = order,
+                    nowMs = orderNowMs,
+                    onOrderAction = if (order.isOrderViewable()) {
+                        { onOrderAction(order) }
+                    } else {
+                        null
+                    },
+                )
             }
         }
     }
@@ -82,6 +94,43 @@ private fun GurujiValidatesBanner(leadGuideName: String) {
             )
         }
         Text("Only here ✦", fontSize = 8.sp, fontWeight = FontWeight.SemiBold, color = VvColors.Gold)
+    }
+}
+
+/**
+ * Shows open report orders (kind = REPORT) in a fixed-height viewport that shows 2 cards
+ * at a time and scrolls vertically when there are more. Hidden when [reports] is empty.
+ */
+@Composable
+fun ReportsInProgressSection(
+    reports: List<CustomerOrder>,
+    orderNowMs: Long = System.currentTimeMillis(),
+    onOrderAction: (CustomerOrder) -> Unit = {},
+) {
+    if (reports.isEmpty()) return
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            "REPORTS IN PROGRESS",
+            fontSize = 8.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 1.1.sp,
+            color = VvColors.Ink3,
+        )
+        OrderCardsViewport(orders = reports) { order ->
+            ReportOrderCard(
+                order = order,
+                nowMs = orderNowMs,
+                onOrderAction = if (order.isOrderViewable()) {
+                    { onOrderAction(order) }
+                } else {
+                    null
+                },
+            )
+        }
     }
 }
 

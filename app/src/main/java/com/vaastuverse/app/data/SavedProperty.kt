@@ -4,10 +4,10 @@ import com.vaastuverse.app.ui.customer.CustomerUseCaseId
 import java.util.UUID
 
 enum class SavedPropertyType(val label: String, val icon: String) {
-    HOME("Flat / Home", "🏠"),
-    OFFICE("Office", "🏢"),
-    SHOP("Shop", "🏪"),
-    FACTORY("Factory", "🏭"),
+    HOME("New Flat / Home", "🏠"),
+    OFFICE("Office / Workspace", "🏢"),
+    SHOP("Shop / Showroom", "🏪"),
+    FACTORY("Factory / Warehouse", "🏭"),
     ;
 
     fun toUseCaseId(): CustomerUseCaseId = when (this) {
@@ -27,11 +27,17 @@ enum class SavedPropertyType(val label: String, val icon: String) {
     }
 }
 
+fun newLocalPropertyId(): String = "local-${UUID.randomUUID()}"
+
+fun SavedProperty.isLocalOnly(): Boolean = id.startsWith("local-")
+
 data class SavedProperty(
-    val id: String = UUID.randomUUID().toString(),
+    val id: String = newLocalPropertyId(),
     val type: SavedPropertyType,
     val label: String,
-    val address: String,
+    val details: Map<String, String> = emptyMap(),
+    // Legacy fields kept for local migration only
+    val address: String? = null,
     val city: String? = null,
     val notes: String? = null,
 )
