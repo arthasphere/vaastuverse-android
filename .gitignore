@@ -3,6 +3,7 @@ local.properties
 
 # Gradle / Android Studio
 .gradle/
+.kotlin/
 build/
 **/build/
 *.iml
